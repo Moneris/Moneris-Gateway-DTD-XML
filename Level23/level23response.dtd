@@ -1,0 +1,42 @@
+<!-- The Level23 Response DTD CA-->
+
+<!-- Main Elements -->
+
+<!ELEMENT response receipt>
+<!ELEMENT receipt (ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete, Message, TransAmount, CardType, TransID, TimedOut, BankTotals, Ticket, RecurSuccess?, CvdResultCode?, AvsResultCode?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, CorporateCard?)>
+<!ELEMENT ReceiptId (#PCDATA)>
+<!ELEMENT ReferenceNum (#PCDATA)>
+<!ELEMENT ResponseCode (#PCDATA)>
+<!ELEMENT ISO (#PCDATA)>
+<!ELEMENT AuthCode (#PCDATA)>
+<!ELEMENT TransTime (#PCDATA)>
+<!ELEMENT TransDate (#PCDATA)>
+<!ELEMENT TransType (#PCDATA)>
+<!ELEMENT Complete (#PCDATA)>
+<!ELEMENT Message (#PCDATA)>
+<!ELEMENT TransAmount (#PCDATA)>
+<!ELEMENT CardType (#PCDATA)>
+<!ELEMENT TransID (#PCDATA)>
+<!ELEMENT TimedOut (#PCDATA)>
+<!ELEMENT BankTotals (ECR)>
+<!ELEMENT Ticket (#PCDATA)>
+<!ELEMENT CvdResultCode (ECR)>
+<!ELEMENT AvsResultCode (#PCDATA)>
+<!ELEMENT RecurSuccess (#PCDATA)>
+<!ELEMENT RecurUpdateSuccess (#PCDATA)>
+<!ELEMENT NextRecurDate (#PCDATA)>
+<!ELEMENT RecurEndDate (#PCDATA)>
+<!ELEMENT CorporateCard (#PCDATA)>
+
+<!ELEMENT ECR (term_id, closed, Card+)>
+<!ELEMENT Card (CardType, (Purchase | Refund | Correction)+)>
+
+<!ELEMENT term_id (#PCDATA)>
+<!ELEMENT closed (#PCDATA)>
+
+<!ELEMENT Purchase (Count, Amount)>
+<!ELEMENT Refund (Count, Amount)>
+<!ELEMENT Correction (Count, Amount)>
+
+<!ELEMENT Count (#PCDATA)>
+<!ELEMENT Amount (#PCDATA)>

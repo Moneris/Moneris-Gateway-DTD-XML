@@ -1,0 +1,51 @@
+<!-- The MasterPass Request DTD v1.0.1 -->
+<!-- Main Elements -->
+<!ELEMENT request (store_id, api_token, (paypass_send_shopping_cart | paypass_retrieve_checkout_data | paypass_purchase | paypass_cavv_purchase | paypass_preauth | paypass_cavv_preauth ))>
+
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+
+<!--The following are paypass transactions -->
+<!ELEMENT paypass_send_shopping_cart (subtotal,suppress_shipping_address)>
+<!ELEMENT paypass_retrieve_checkout_data (oauth_token, oauth_verifier, checkout_resource_url)>
+<!ELEMENT paypass_purchase (order_id, cust_id?, amount, mp_request_token, crypt_type, avs_info?, dynamic_descriptor?)>
+<!ELEMENT paypass_cavv_purchase (order_id, cavv, cust_id?, amount, mp_request_token, crypt_type, avs_info?, dynamic_descriptor?)>
+<!ELEMENT paypass_preauth (order_id, cust_id?, amount, mp_request_token, crypt_type, avs_info?, dynamic_descriptor?)>
+<!ELEMENT paypass_cavv_preauth (order_id, cavv, cust_id?, amount, mp_request_token, crypt_type, avs_info?, dynamic_descriptor?)>
+<!ELEMENT paypass_purchasecorrection (order_id, txn_number, crypt_type)>
+<!ELEMENT paypass_refund (order_id, amount, txn_number, crypt_type, dynamic_descriptor?)>
+<!ELEMENT paypass_completion (order_id, comp_amount, txn_number, crypt_type, dynamic_descriptor?)>
+<!ELEMENT paypass_txn (xid, amount, mp_request_token, MD?, merchantUrl, accept, userAgent)>
+
+<!ELEMENT order_id (#PCDATA)>
+<!ELEMENT cust_id (#PCDATA)>
+<!ELEMENT cavv (#PCDATA)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT subtotal (#PCDATA)>
+<!ELEMENT suppress_shipping_address (#PCDATA)>
+<!ELEMENT oauth_token (#PCDATA)>
+<!ELEMENT oauth_verifier (#PCDATA)>
+<!ELEMENT checkout_resource_url (#PCDATA)>
+<!ELEMENT mp_request_token (#PCDATA)>
+<!ELEMENT crypt_type (#PCDATA)>
+<!ELEMENT dynamic_descriptor (#PCDATA)>
+<!ELEMENT comp_amount (#PCDATA)>
+<!ELEMENT xid (#PCDATA)>
+<!ELEMENT MD (#PCDATA)>		
+<!ELEMENT merchantUrl (#PCDATA)>
+<!ELEMENT accept (#PCDATA)>
+<!ELEMENT userAgent (#PCDATA)>
+
+<!-- AVS Check -->
+<!ELEMENT avs_info (avs_street_number, avs_street_name, avs_zipcode, avs_email?, avs_hostname?, avs_browser?, avs_shiptocountry?, avs_shipmethod?, avs_merchprodsku?, avs_custip?, avs_custphone?)>
+<!ELEMENT avs_street_number (#PCDATA)>
+<!ELEMENT avs_street_name (#PCDATA)>
+<!ELEMENT avs_zipcode (#PCDATA)>
+<!ELEMENT avs_email (#PCDATA)>
+<!ELEMENT avs_hostname (#PCDATA)>
+<!ELEMENT avs_browser (#PCDATA)>
+<!ELEMENT avs_shiptocountry (#PCDATA)>
+<!ELEMENT avs_shipmethod (#PCDATA)>
+<!ELEMENT avs_merchprodsku (#PCDATA)>
+<!ELEMENT avs_custip (#PCDATA)>
+<!ELEMENT avs_custphone (#PCDATA)>

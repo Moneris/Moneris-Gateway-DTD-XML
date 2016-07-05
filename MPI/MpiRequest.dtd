@@ -1,0 +1,23 @@
+<!-- The MpiRequest DTD -->
+
+<!-- Main Elements -->
+
+<!ELEMENT MpiRequest (store_id, api_token, (txn | acs)+)> 
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+<!ELEMENT txn (xid, amount, pan, expdate, MD?, merchantUrl, accept, userAgent, currency?, recurFreq?, recurEnd?, install? )>
+<!ELEMENT acs (PaRes, MD)>
+<!ELEMENT xid (#PCDATA)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT pan (#PCDATA)>
+<!ELEMENT expdate (#PCDATA)>
+<!ELEMENT MD (#PCDATA)>		
+<!ELEMENT merchantUrl (#PCDATA)>
+<!ELEMENT accept (#PCDATA)>
+<!ELEMENT userAgent (#PCDATA)>
+<!ELEMENT currency (#PCDATA)>	
+<!ELEMENT recurFreq (#PCDATA)>	
+<!ELEMENT recurEnd (#PCDATA)>	
+<!ELEMENT install (#PCDATA)>	
+<!ELEMENT PaRes (#PCDATA)>
+

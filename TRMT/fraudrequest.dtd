@@ -1,0 +1,108 @@
+<!-- The risk Request DTD -->
+
+<!-- Main Elements -->
+
+<!ELEMENT request (store_id, api_token, risk)>
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+<!ELEMENT risk (session_query|attribute_query|assert)>
+
+<!ELEMENT session_query (order_id, session_id,service_type,event_type?,session_account_info?)>
+<!ELEMENT order_id (#PCDATA)> <!--char 64,This is a local identifier used by the merchant to identify the transaction e.g. purchase order number.-->
+<!ELEMENT session_id (#PCDATA)> <!--char 128,This is the web server session identifier generated when device profiling was initiated.-->
+								<!--Upper and lowercase English letters, digits, underscore or hyphen ([a-z],[A-Z], 0-9, _, -) -->
+<!ELEMENT service_type (#PCDATA)> <!--char 32,Restricts which output fields are returned based on the level of access that -->
+								  <!--a customer has.-->
+								  <!--It must be one of the following values: -->
+								  <!--• device - returns only device related attributes and values. -->
+								  <!--• did - returns only the device identifier -->
+								  <!--• ip - returns only IP related attributes and values -->
+								  <!--• session - returns IP and device related attributes but no policy information -->
+								  <!--• session-policy - returns IP and device related attributes in addition to policy details -->
+<!ELEMENT event_type (#PCDATA)> <!--char 32,(enumerated value),Specifies the type of transaction or event. This is not required but useful for -->
+								<!--reporting. If specified, it must be one of the following values: -->
+								<!--• LOGIN-­A user logging in to an account. -->
+								<!--• PAYMENT-­Purchasing of goods/services. -->
+								<!--• TRANSFER-­A money transfer between accounts. -->
+								<!--• TRANSACTION_OTHER-­Other transaction types. -->
+								<!--• AUCTION_BID-­An online auction bid. -->
+								<!--• DETAILS_CHANGE-­A change of account details. -->
+								<!--• ACCOUNT_CREATION-­The creation of a new account. -->
+								<!--• ADD_LISTING-­A listing was added to an online auction site. -->
+								<!--• ACCOUNT_BALANCE-­An account balance request. -->
+								<!--• TRANSACTION_HISTORY-­An account transaction history was requested. -->
+								<!--• DIGITAL_DOWNLOAD-­An online purchase for software goods that were delivered electronically. -->
+								<!--• DIGITAL_STREAM-­An online purchase of digital media that was streamed to the user. -->
+<!ELEMENT session_account_info (policy?,account_login?,password_hash?,account_number?,account_name?,account_email?,account_telephone?,
+    pan?,account_address_street1?,account_address_street2?,account_address_city?,account_address_state?,
+    account_address_country?,account_address_zip?,shipping_address_street1?,shipping_address_street2?,shipping_address_city?,
+    shipping_address_state?,shipping_address_country?,shipping_address_zip?,local_attrib_1?,local_attrib_2?,local_attrib_3?,local_attrib_4?,
+    local_attrib_5?,online_tld?,online_id_handle?,transaction_amount?,transaction_currency?)>
+<!ELEMENT policy (#PCDATA)> <!--char 32,Identifies the Policy to be used for the session_query.Case insensitive, spaces allowed.-->
+<!ELEMENT account_login (#PCDATA)> <!--char 255,This is a unique customer identifier e.g. user name, account id, login name. Used to check if-->
+                                   <!-- it is on a watch list.-->
+<!ELEMENT password_hash (#PCDATA)> <!--char 40,The input must be a SHA-1 hash of password in hexa decimal format.Used to check if it is on a-->
+                                   <!--  watch list.-->
+<!ELEMENT account_number (#PCDATA)> <!--char 255,An account number (or hash of account number). The data must only be upper or lower case-->
+                                    <!--  English letters, digits, underscore or hyphen ([a-z], [A-Z], 0-9, _, -).-->
+<!ELEMENT account_name (#PCDATA)> <!--char 255,Account name (or concatenation of first and last name of account holder).The data must only-->
+                                  <!--  be upper or lower case English letters, digits,underscore or hyphen ([a-z], [A-Z], 0-9, _, -).-->
+<!ELEMENT account_email (#PCDATA)> <!--char 255,Contact email address entered into the form. Used to check if high risk account.Standard -->
+<!--                                 user@domain format (RFC 2822)-->
+<!ELEMENT account_telephone (#PCDATA)> <!--char 32,Contact telephone number and area number.Must be in format:0..9,<space>,(,),[,] braces-->
+                                       <!--  must be matched-->
+<!ELEMENT pan (#PCDATA)> <!--card number-->
+<!ELEMENT account_address_street1 (#PCDATA)> <!--char 32,The first portion of the street address component of the account address-->
+<!ELEMENT account_address_street2 (#PCDATA)> <!--char 32,The second portion of the street address component of the account address-->
+<!ELEMENT account_address_city (#PCDATA)> <!--char 50,The city component of the account address-->
+<!ELEMENT account_address_state (#PCDATA)> <!--char 64,The state component of the account address-->
+<!ELEMENT account_address_country (#PCDATA)> <!--char 2,The 2 character ISO2 country code of the account address country-->
+<!ELEMENT account_address_zip (#PCDATA)> <!--char 8,The zip/postal code of the account address-->
+<!ELEMENT shipping_address_street1 (#PCDATA)> <!--char 32,The first portion of the street address component of the shipping-->
+<!ELEMENT shipping_address_street2 (#PCDATA)> <!--char 32,The second portion of the street address component of the shipping-->
+<!ELEMENT shipping_address_city (#PCDATA)> <!--char 50,The city component of the shipping address-->
+<!ELEMENT shipping_address_state (#PCDATA)> <!--char 64,The state component of the shipping address-->
+<!ELEMENT shipping_address_country (#PCDATA)> <!--char 2,The 2 character ISO2 country code of the shipping address country-->
+<!ELEMENT shipping_address_zip (#PCDATA)> <!--char 8,The zip/postal code component of the shipping address-->
+<!ELEMENT local_attrib_1 (#PCDATA)> <!--char 255,These five attributes can be used to pass custom attribute data. These are used if you wish-->
+                                    <!--  to correlate some data with the returned device information.-->
+<!ELEMENT local_attrib_2 (#PCDATA)> <!--char 255,same with above-->
+<!ELEMENT local_attrib_3 (#PCDATA)> <!--char 255,same with above-->
+<!ELEMENT local_attrib_4 (#PCDATA)> <!--char 255,same with above-->
+<!ELEMENT local_attrib_5 (#PCDATA)> <!--char 255,same with above-->
+<!ELEMENT online_tld (#PCDATA)> <!--char 255,An id that can globally identify a visitor and is made of two components: a handle-->
+                                <!-- (onlin_ id_handle) and a top level domain (online_tld).The online_tld indicates the domain with which-->
+                                <!-- the handle is associated, such as. Facebook, MySpace, Yahoo etc.-->
+<!ELEMENT online_id_handle (#PCDATA)> <!--char 255,The user name of an account that is associated with a top level domain. See online_tld.-->
+<!ELEMENT transaction_amount (#PCDATA)> <!--char 255,A numeric currency amount. If decimal point is present, exactly two digits must follow.-->
+<!ELEMENT transaction_currency (#PCDATA)> <!--char 40,The currency type that the transaction was denominated in. ISO 4217 currency code.-->
+
+
+<!ELEMENT attribute_query (order_id, policy_id?,service_type,attribute_account_info)>
+<!ELEMENT policy_id (#PCDATA)> <!--char 32,Identifies the Policy to be used for the session_query.Case insensitive, spaces allowed.-->
+<!ELEMENT attribute_account_info (device_id?,account_login?,password_hash?,account_number?,account_name?,account_email?,account_telephone?,
+    cc_number_hash?,ip_address?,ip_forwarded?,account_address_street1?,account_address_street2?,account_address_city?,account_address_state?,
+    account_address_country?,account_address_zip?,shipping_address_street1?,shipping_address_street2?,shipping_address_city?,
+    shipping_address_state?,shipping_address_country?,shipping_address_zip?)>
+<!ELEMENT device_id (#PCDATA)> <!--char 36,The unique device identifier generated by a prior call to the ThreatMetrix session-query API.-->
+<!ELEMENT ip_address (#PCDATA)> <!--char 64,The true ip address, results will be returned as true_ip_geo, true_ip_score etc.-->
+<!ELEMENT ip_forwarded (#PCDATA)> <!--char 64,The ip address of the proxy, if ip_address is supplied, results will be returned as proxy_ip_geo,-->
+<!--                                proxy_ip_score otherwise if ip_address is not supplied this ip address will be treated as the true ip -->
+<!--                                address and results will be returned as true_ip_geo, true_ip_score etc.-->
+
+<!ELEMENT assert (order_id, activities_description,impact_description,confidence_description)>
+<!ELEMENT impact_description (#PCDATA)>  <!--char 32, MEDIUM - The impact of the report is medium (e.g. an address change might be suspicious, but not high impact)-->
+					   <!--HIGH - The impact of the report is high (e.g. the entity has committed card not present fraud)-->
+<!ELEMENT confidence_description (#PCDATA)>  <!--char 32, SUSPICIOUS - Fraud is suspected, but not yet confirmed.-->					   
+					     <!--CONFIRMED_BAD - A fraud incident has been confirmed -->
+<!ELEMENT activities_description (#PCDATA)>  	<!--char 32, CHARGE_BACK - There has been a charge back related to the entity.-->					   					     
+						<!--PAYMENT_FRAUD - Payment fraud e.g. card not present fraud was attempted from this entity.-->					   					     
+						<!--CARD_ADDRESS - The billing address did not match the address held by the issuing bank.-->					   					     
+						<!--CARD_NUMBER - The card number and/or expiry date was not valid for the issuing bank.-->					   					     
+						<!--VELOCITY - The card/IP Address/FP has processed a suspicious volume of transactions-->					   					     
+						<!--AMOUNT - Thieves will run a test transaction to see if a card is still 'live' by issuing small purchases.-->					   					     
+						<!--QUANTITY - The quantity of transactions is suspicious (e.g. large quantity of large ticket items purchased at the same time)-->					   					     
+						<!--ADDRESS - The billing/shipping address has been associated with fraud in the past.-->					   					     
+						<!--GEOLOCATION - The IP Address did not match billing/shipping details.-->					   					     
+						<!--TIME - The transaction was performed during an usual time.-->					   					     
+						

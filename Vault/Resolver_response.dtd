@@ -1,0 +1,55 @@
+<!-- The Response DTD -->
+
+<!-- Main Elements -->
+
+<!ELEMENT response receipt>
+<!ELEMENT receipt (DataKey, ReceiptId, ReferenceNum, ResponseCode, AuthCode, ISO, Message, 
+		   TransTime, TransDate, TransType, Complete,  TransAmount, CardType, 
+		   TransID, TimedOut, CvdResultCode, AvsResultCode, RecurSuccess, 
+		   CorporateCard, ResSuccess, PaymentType, ResolveData)>
+<!ELEMENT DataKey (#PCDATA)>
+<!ELEMENT ReceiptId (#PCDATA)>
+<!ELEMENT ReferenceNum (#PCDATA)>
+<!ELEMENT ResponseCode (#PCDATA)>
+<!ELEMENT AuthCode (#PCDATA)>
+<!ELEMENT ISO (#PCDATA)>
+<!ELEMENT TransTime (#PCDATA)>
+<!ELEMENT TransDate (#PCDATA)>
+<!ELEMENT TransType (#PCDATA)>
+<!ELEMENT Complete (#PCDATA)>
+<!ELEMENT Message (#PCDATA)>
+<!ELEMENT TransAmount (#PCDATA)>
+<!ELEMENT CardType (#PCDATA)>
+<!ELEMENT TransID (#PCDATA)>
+<!ELEMENT TimedOut (#PCDATA)>
+<!ELEMENT CvdResultCode (ECR)>
+<!ELEMENT AvsResultCode (#PCDATA)>
+<!ELEMENT RecurSuccess (#PCDATA)>
+<!ELEMENT CorporateCard (#PCDATA)>	<!-- true or false -->
+<!ELEMENT ResSuccess (#PCDATA)> 	<!-- true or false -->
+<!ELEMENT PaymentType (#PCDATA)>	<!-- cc -->
+
+<!ELEMENT ResolveData (data_key?, payment_type?, cust_id, phone, email, note, 
+		       masked_pan?, pan?, expdate?, crypt_type?, 
+		       avs_street_number?, avs_street_name?, avs_zipcode?)>
+
+<!-- the following are only returned with res_get_expiring -->
+<!ELEMENT data_key (#PCDATA)> 		
+<!ELEMENT payment_type (#PCDATA)>	
+
+<!-- the following are always returned, even if they are blank in the profile -->
+<!ELEMENT cust_id (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT note (#PCDATA)>
+
+<!-- the following are depending on what is stored in the profile -->
+<!ELEMENT masked_pan (#PCDATA)>
+<!ELEMENT expdate (#PCDATA)>
+<!ELEMENT crypt_type (#PCDATA)>
+<!ELEMENT avs_street_number (#PCDATA)>
+<!ELEMENT avs_street_name (#PCDATA)>
+<!ELEMENT avs_zipcode (#PCDATA)>
+
+<!-- the following are only returned with res_lookup_full -->
+<!ELEMENT pan (#PCDATA)>

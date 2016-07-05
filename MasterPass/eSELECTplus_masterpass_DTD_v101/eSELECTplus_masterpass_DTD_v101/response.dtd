@@ -1,0 +1,80 @@
+<!-- The MasterPass Response DTD v1.0.1 -->
+<!-- Main Elements -->
+
+<!ELEMENT response receipt+>
+<!ELEMENT receipt (ResponseCode, Message, ReceiptId?, ReferenceNum?, ISO?, AuthCode?, TransTime?, TransDate?, TransType?, Complete?, TransAmount?, CardType?, TransID?, TimedOut?, Ticket?, MPRequestToken?, MPRedirectUrl?, PayPassInfo?)>
+
+<!ELEMENT ReceiptId (#PCDATA)>
+<!ELEMENT ReferenceNum (#PCDATA)>
+<!ELEMENT ResponseCode (#PCDATA)>
+<!ELEMENT ISO (#PCDATA)>
+<!ELEMENT AuthCode (#PCDATA)>
+<!ELEMENT TransTime (#PCDATA)>
+<!ELEMENT TransDate (#PCDATA)>
+<!ELEMENT TransType (#PCDATA)>
+<!ELEMENT Complete (#PCDATA)>
+<!ELEMENT Message (#PCDATA)>
+<!ELEMENT TransAmount (#PCDATA)>
+<!ELEMENT CardType (#PCDATA)>
+<!ELEMENT TransID (#PCDATA)>
+<!ELEMENT TimedOut (#PCDATA)>
+<!ELEMENT Ticket (#PCDATA)>
+<!ELEMENT MPRequestToken (#PCDATA)>
+<!ELEMENT MPRedirectUrl (#PCDATA)>
+
+<!-- The following are only applicable to MasterPass transactions -->
+<!ELEMENT PayPassInfo (CardBrandId?, CardBrandName?, 
+  CardBillingAddressCity?, CardBillingAddressCountry?, CardBillingAddressCountrySubdivision?, CardBillingAddressLine1?, CardBillingAddressLine2?, CardBillingAddressPostalCode?, CardBillingAddressRecipientPhoneNumber?, CardBillingAddressRecipientName?, 
+  CardCardHolderName?, CardExpiryMonth, CardExpiryYear?, TransactionId?, ContactEmailAddress?, ContactFirstName?, ContactLastName?, ContactPhoneNumber?, ShippingAddressCity?, ShippingAddressCountry?, ShippingAddressCountrySubdivision?, ShippingAddressLine1?, ShippingAddressLine2?, 
+  ShippingAddressPostalCode?, ShippingAddressRecipientName?, ShippingAddressRecipientPhoneNumber?, PayPassWalletIndicator?, 
+  AuthenticationOptionsAuthenticateMethod?, AuthenticationOptionsCardEnrollmentMethod?, AuthenticationOptionsCAvv?, AuthenticationOptionsEciFlag?, AuthenticationOptionsPaResStatus?, AuthenticationOptionsSCEnrollmentStatus?, AuthenticationOptionsSignatureVerification?, AuthenticationOptionsXid?, CardAccountNumber?)>
+
+<!ELEMENT CardBrandId (#PCDATA)>
+<!ELEMENT CardBrandName (#PCDATA)>
+<!ELEMENT CardBillingAddressCity (#PCDATA)>
+<!ELEMENT CardBillingAddressCountry (#PCDATA)>
+<!ELEMENT CardBillingAddressCountrySubdivision (#PCDATA)>
+<!ELEMENT CardBillingAddressLine1 (#PCDATA)>
+<!ELEMENT CardBillingAddressLine2 (#PCDATA)>
+<!ELEMENT CardBillingAddressPostalCode (#PCDATA)>
+<!ELEMENT CardBillingAddressRecipientPhoneNumber (#PCDATA)>
+<!ELEMENT CardBillingAddressRecipientName (#PCDATA)>
+<!ELEMENT CardCardHolderName (#PCDATA)>
+<!ELEMENT CardExpiryMonth (#PCDATA)>
+<!ELEMENT CardExpiryYear (#PCDATA)>
+<!ELEMENT ContactEmailAddress (#PCDATA)>
+<!ELEMENT ContactFirstName (#PCDATA)>
+<!ELEMENT ContactLastName (#PCDATA)>
+<!ELEMENT ContactPhoneNumber (#PCDATA)>
+<!ELEMENT ShippingAddressCity (#PCDATA)>
+<!ELEMENT ShippingAddressCountry (#PCDATA)>
+<!ELEMENT ShippingAddressCountrySubdivision (#PCDATA)>
+<!ELEMENT ShippingAddressLine1 (#PCDATA)>
+<!ELEMENT ShippingAddressLine2 (#PCDATA)>
+<!ELEMENT ShippingAddressPostalCode (#PCDATA)>
+<!ELEMENT ShippingAddressRecipientName (#PCDATA)>
+<!ELEMENT ShippingAddressRecipientPhoneNumber (#PCDATA)>
+<!ELEMENT PayPassWalletIndicator (#PCDATA)>
+<!ELEMENT AuthenticationOptionsAuthenticateMethod (#PCDATA)>
+<!ELEMENT AuthenticationOptionsCardEnrollmentMethod (#PCDATA)>
+<!ELEMENT CardAccountNumber (#PCDATA)>
+<!ELEMENT AuthenticationOptionsEciFlag (#PCDATA)>
+<!ELEMENT AuthenticationOptionsPaResStatus (#PCDATA)>
+<!ELEMENT AuthenticationOptionsSCEnrollmentStatus (#PCDATA)>
+<!ELEMENT AuthenticationOptionsSignatureVerification (#PCDATA)>
+<!ELEMENT AuthenticationOptionsXid (#PCDATA)>
+<!ELEMENT AuthenticationOptionsCAvv (#PCDATA)>
+<!ELEMENT TransactionId (#PCDATA)>
+
+
+<!-- The following are only applicable to MasterPass Txn request -->
+<!ELEMENT MpiResponse (type?, success?, message?,PaReq?, TermUrl?, MD?, ACSUrl?, cavv?, PAResVerified?)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT success (#PCDATA)> 
+<!ELEMENT message (#PCDATA)>
+<!ELEMENT PaReq (#PCDATA)>
+<!ELEMENT TermUrl (#PCDATA)>
+<!ELEMENT MD (#PCDATA)>
+<!ELEMENT ACSUrl (#PCDATA)>
+<!ELEMENT cavv (#PCDATA)>
+<!ELEMENT PAResVerified (#PCDATA)>

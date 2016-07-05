@@ -1,0 +1,28 @@
+<!-- The RecurUpdate Request DTD CA-->
+
+<!-- Main Elements -->
+
+<!ELEMENT request (store_id, api_token, (recur_update))>
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+<!ELEMENT recur_update (order_id, cust_id?, pan?, expdate?, recur_amount?, add_num_recurs?, total_num_recurs?, hold?, terminate?)>
+<!ELEMENT order_id (#PCDATA)>   <!-- 1-50 an: must correspond to an existing active order_id in the store -->
+<!ELEMENT cust_id (#PCDATA)>		<!-- 0-50 an: Replace current cust_id -->
+					<!-- if a blank cust_id is submitted, it will be ignored.  Will not erase cust_id currently in DB -->
+<!ELEMENT pan (#PCDATA)>		<!-- 1-20 n: Replace current pan, must pass mod10 -->
+<!ELEMENT expdate (#PCDATA)>		<!-- YYMM: Replace current expdate, must be today's date or later -->
+<!ELEMENT recur_amount (#PCDATA)>	  <!-- 0.01 - 9999999.99: Amount that all future recurs will bill -->
+                                    <!-- must be in the proper format -->
+<!ELEMENT add_num_recurs (#PCDATA)> <!-- 1 - 999: Number of transactions to be added to the current remaining num_recurs -->
+                                    <!-- cannot change the end date to greater than 10 years from today -->
+                                    <!-- If both the add_num_recurs and total_num_recurs are submitted, add_num_recurs will take precedence -->
+<!ELEMENT total_num_recurs (#PCDATA)>	<!-- 1 - 999: Number of transactions that will replace the current remaining num_recurs -->
+                                      <!-- cannot change the end date to greater than 10 years from today -->
+                                      <!-- cannot change the end date to today or earlier -->
+<!ELEMENT hold (#PCDATA)>		<!-- true or false: Defines whether the transaction is to be put on hold -->
+<!ELEMENT terminate (#PCDATA)>		<!-- true or false: Defines whether the transaction is to be terminated -->
+                                  <!-- If terminate=true then every other field will be ignored and txn will be terminated -->
+                                  <!-- An inactive txn cannot be made active after a termination -->
+					
+<!-- All fields are passed as Strings, consistent with current APIs -->
+<!-- Only the optional fields which are sent will be updated -->

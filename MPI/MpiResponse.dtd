@@ -1,0 +1,14 @@
+<!-- The MpiResponse DTD -->
+
+<!-- Main Elements -->
+
+<!ELEMENT MpiResponse (type, success, message, PaReq, TermUrl, MD, ACSUrl, cavv, PAResVerified)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT success (#PCDATA)>
+<!ELEMENT message (#PCDATA)>
+<!ELEMENT PaReq (#PCDATA)>
+<!ELEMENT TermUrl (#PCDATA)>
+<!ELEMENT MD (#PCDATA)>
+<!ELEMENT ACSUrl (#PCDATA)>
+<!ELEMENT cavv (#PCDATA)>
+<!ELEMENT PAResVerified (#PCDATA)>

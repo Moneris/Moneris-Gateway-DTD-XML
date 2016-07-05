@@ -1,0 +1,137 @@
+<!-- level23 The Request DTD -->
+<!-- Main Elements -->
+<!ELEMENT request (store_id, api_token, (mccompletion | mcrefund | mclevel23 | mcind_refund | mcpurchasecorrection | mcforcepost | vscompletion | vsrefund | vsind_refund | vsforcepost | vspurchal | iscorporatecard | axcompletion | axrefund | axind_refund | axpurchasecorrection | axforcepost | axracompletion | axrarefund | axraind_refund | axrapurchasecorrection | axraforcepost))>
+<!ELEMENT mc_addendum1 (customer_code, tax_amount, freight_amount, ship_to_pos_code, ship_from_pos_code, duty_amount, alt_tax_amt_ind, alt_tax_amt, des_cou_code, sup_data, sal_tax_col_ind)>
+<!ELEMENT customer_code (#PCDATA)>				<!-- String 1..17 Character, Alphanumeric,Customer Code -->
+<!ELEMENT tax_amount (#PCDATA)>					<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT freight_amount (#PCDATA)>				<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT ship_to_pos_code (#PCDATA)>				<!-- String 1..10 Character -->
+<!ELEMENT ship_from_pos_code (#PCDATA)>				<!-- String 1..10 Character -->
+<!ELEMENT duty_amount (#PCDATA)>				<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT alt_tax_amt_ind (#PCDATA)>				<!-- String 1 Character,Alphanumeric,An indicator used to reflect alternate tax/or Provincial Sales Tax(PST) capture and reporting. Values are:Y=alternate tax included in total purchase amount, N=alternate tax not included in total purchase amount, Space=not supported -->
+<!ELEMENT alt_tax_amt (#PCDATA)>				<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT des_cou_code (#PCDATA)>				<!-- String 1..3 Character -->
+<!ELEMENT sup_data (#PCDATA)>					<!-- String 1..17 Character -->
+<!ELEMENT sal_tax_col_ind (#PCDATA)>				<!-- String 1 Character,Alphanumeric,An indicator used to reflect GST/HST captured and reported. Values are: Y = GST/HST  included in total purchase amount.  N = GST/HST exempt not included in total purchase amount, Space = Information is unknown -->
+<!ELEMENT mc_addendum2 (product_code, item_description, item_quantity, item_uom, ext_item_amount, discount_ind, discount_amount, net_gro_ind_for_ext_item_amt, tax_rate_app, tax_type_app, tax_amount, debit_credit_ind, alt_tax_ide_amt)>
+<!ELEMENT product_code (#PCDATA)>				<!-- String 1..12 Character -->
+<!ELEMENT item_description (#PCDATA)>				<!-- String 1..35 Character -->
+<!ELEMENT item_quantity (#PCDATA)>				<!-- String 1..5 Character,number -->
+<!ELEMENT item_uom (#PCDATA)>					<!-- String 1..3 Character -->
+<!ELEMENT ext_item_amount (#PCDATA)>				<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT discount_ind (#PCDATA)>				<!-- String 1 Character,Values are:Y = amount is discounted, N = amount is not discounted, Space = not supported -->
+<!ELEMENT discount_amount (#PCDATA)>				<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT net_gro_ind_for_ext_item_amt (#PCDATA)>		<!-- String 1 Character,Values are:Y =Item amount includes tax amount,N = Item amount does not include tax amount,Space = not supported -->
+<!ELEMENT tax_rate_app (#PCDATA)>				<!-- String 1..5 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT tax_type_app (#PCDATA)>				<!-- String 1..4 Character,Use (GST) or (HST) -->
+<!ELEMENT tax_amount (#PCDATA)>					<!-- String 1..9 Character,Alphanumeric,leading zeros with 2 implied decimals. -->
+<!ELEMENT debit_credit_ind (#PCDATA)>				<!-- String 1 Character,Values are: D=extended item amount is a Debit. C=extended item amount is a Credit. Space=does not apply -->
+<!ELEMENT alt_tax_ide_amt (#PCDATA)>				<!-- String 1..15 Character,Alphanumeric,An indicator used to reflect GST/HST captured and reported. Values are: Y = GST/HST  included in total purchase amount.  N = GST/HST exempt not included in total purchase amount, Space = Information is unknown -->
+<!ELEMENT mccompletion (order_id, comp_amount, txn_number, crypt_type)>
+<!ELEMENT mcrefund (order_id, amount, txn_number, crypt_type)>
+<!ELEMENT order_id (#PCDATA)>
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+<!ELEMENT txn_number (#PCDATA)>
+<!ELEMENT comp_amount (#PCDATA)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT crypt_type (#PCDATA)>
+<!ELEMENT mclevel23 (order_id, txn_number, mc_addendum1, mc_addendum2+)>
+<!ELEMENT mcind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type)>
+<!ELEMENT mcpurchasecorrection (order_id, txn_number, crypt_type)>
+<!ELEMENT mcforcepost (order_id, cust_id?, amount, pan, expdate, auth_code, crypt_type)>
+<!ELEMENT expdate (#PCDATA)>
+<!ELEMENT pan (#PCDATA)>
+<!ELEMENT auth_code (#PCDATA)>
+<!ELEMENT cust_id (#PCDATA)>
+<!ELEMENT vscompletion (order_id, comp_amount, txn_number, crypt_type, (order_level_gst, merchant_gst_no)?, (order_level_pst, merchant_pst_no)?, cri?)>
+<!ELEMENT vsrefund (order_id, amount, txn_number, crypt_type, (order_level_gst, merchant_gst_no)?, (order_level_pst, merchant_pst_no)?, cri?)>
+<!ELEMENT vsind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type, (order_level_gst, merchant_gst_no)?, (order_level_pst, merchant_pst_no)?, cri?)>
+<!ELEMENT vsforcepost (order_id, cust_id?, amount, pan, expdate, auth_code, crypt_type, (order_level_gst, merchant_gst_no)?, (order_level_pst, merchant_pst_no)?, cri?)>
+<!ELEMENT order_level_gst (#PCDATA)>
+<!ELEMENT merchant_gst_no (#PCDATA)>
+<!ELEMENT order_level_pst (#PCDATA)>
+<!ELEMENT merchant_pst_no (#PCDATA)>
+<!ELEMENT cri (#PCDATA)>
+<!ELEMENT vspurchal (order_id, txn_number, purcha, purchl+)>
+<!ELEMENT purcha (duty_amount, ship_to_pos_code, ship_from_pos_code, des_cou_code, vat_ref_num)>
+<!ELEMENT vat_ref_num (#PCDATA)>
+<!ELEMENT purchl ((item_com_code|product_code), item_description, item_quantity, item_uom, unit_cost, vat_tax_amt, vat_tax_rate, discount_amt)>
+<!ELEMENT item_com_code (#PCDATA)>
+<!ELEMENT product_code (#PCDATA)>
+<!ELEMENT item_description (#PCDATA)>
+<!ELEMENT item_quantity (#PCDATA)>
+<!ELEMENT item_uom (#PCDATA)>
+<!ELEMENT unit_cost (#PCDATA)>
+<!ELEMENT vat_tax_amt (#PCDATA)>
+<!ELEMENT vat_tax_rate (#PCDATA)>
+<!ELEMENT discount_amt (#PCDATA)>
+<!ELEMENT iscorporatecard (pan,expdate)>
+<!-- start amex level23 -->
+<!ELEMENT axcompletion (order_id, comp_amount, txn_number, axlevel23)>
+<!ELEMENT axrefund (order_id, amount, txn_number, axlevel23)>
+<!ELEMENT axind_refund (order_id, cust_id?, amount, pan, expdate, axlevel23)>
+<!ELEMENT axpurchasecorrection (order_id, txn_number, crypt_type)>
+<!ELEMENT axforcepost (order_id, cust_id?, amount, pan, expdate, auth_code, axlevel23)>
+<!ELEMENT axlevel23 (table1, table2, table3)>
+<!ELEMENT table1 (big04?, big05?, big10?, n1_loop+)>
+<!ELEMENT n1_loop (n101, n102?, n301?, n401?, n402?, n403?, ref*)>
+<!ELEMENT ref (ref01, ref02?)>
+<!ELEMENT table2 (it1_loop+)>
+<!ELEMENT it1_loop (it102, it103, it104, it105?, it106s*, txi*,pam05+, pid05+)>
+<!ELEMENT it106s (it10618, it10719)>
+<!ELEMENT txi (txi01, ((txi02?, txi03?, txi06?)|(txi02 | txi03 | txi06)))>
+<!ELEMENT table3 (txi+)>
+<!ELEMENT big04 (#PCDATA)>				<!-- Purchase Order Number, Conditional, AN, 1/22 -->
+<!ELEMENT big05 (#PCDATA)>				<!-- Release Number, related with Purchase Order Number, Optional, AN, 1/30 -->
+<!ELEMENT big10 (#PCDATA)>				<!-- Invoice Number, Optional, AN, 1/10 -->
+<!-- N1 section Name -->
+<!ELEMENT n101 (#PCDATA)>				<!-- Entity Identifier Code, Mandatory, ID, 2/2, there are different option list for be used in table1 and table2 -->
+<!ELEMENT n102 (#PCDATA)>				<!-- Name, Mandatory/Conditional, AN, 1/40 -->
+<!-- N3 section Address Information -->
+<!ELEMENT n301 (#PCDATA)>				<!-- Address Information - Line 1, Optional, AN, 1/40 -->
+<!-- N4 section Feographic Location (City/State/Zip/Country) -->
+<!ELEMENT n401 (#PCDATA)>				<!-- City Name, Mandatory/Optional, AN, 2/30 -->
+<!ELEMENT n402 (#PCDATA)>				<!-- State or Province Code, Mandatory/Optional, ID, 2/2 -->
+<!ELEMENT n403 (#PCDATA)>				<!-- Postal Code, Mandatory/Optional, ID, 3/15 -->
+<!-- REF section Rference Identification -->
+<!ELEMENT ref01 (#PCDATA)>				<!-- Reference Identification Qualifier, Mandatory/Conditional/Optional, ID, 2/3 -->
+<!ELEMENT ref02 (#PCDATA)>				<!-- Reference Identification, Mandatory/Conditional/Optional, AN, 1/30 -->
+<!-- IT1 section Baseline Item Data -->
+<!ELEMENT it102 (#PCDATA)>				<!-- Quantity Invoiced, Mandatory, R, 1/10 -->
+<!ELEMENT it103 (#PCDATA)>				<!-- Unit or Basis for Measurement Code, Mandatory, ID, 2/2 -->
+<!ELEMENT it104 (#PCDATA)>				<!-- Unit Price, Mandatory, R, 1/15 -->
+<!ELEMENT it105 (#PCDATA)>				<!-- Basis of Unit Price Code, Optional, ID, 2/2 -->
+<!ELEMENT it10618 (#PCDATA)>			<!-- Product/Service ID Qualifier, Optional, ID, 2/2 -->
+<!ELEMENT it10719 (#PCDATA)>			<!-- Product/Service ID, Optional, AN, 1/30 -->
+<!-- TXI section Tax Information -->
+<!ELEMENT txi01 (#PCDATA)>				<!-- Tax Type Code, Mandatory, ID, 2/2 -->
+<!ELEMENT txi02 (#PCDATA)>				<!-- Monetary Amount, Conditional, R, 1/6 -->
+<!ELEMENT txi03 (#PCDATA)>				<!-- Percent, Conditional, R, 1/10 -->
+<!ELEMENT txi06 (#PCDATA)>				<!-- Tax Exempt Code, Conditional, ID, 1/1 -->
+<!-- PAM section Period Amount -->
+<!ELEMENT pam05 (#PCDATA)>				<!-- Monetary Amount, Mandatory, R, 1/8 -->
+<!-- PID section Product/Item Description -->
+<!ELEMENT pid05 (#PCDATA)>				<!-- Description, Mandatory, AN, 1/80 -->
+<!-- start amex Rail-Airline level23 -->
+<!ELEMENT axracompletion (order_id, comp_amount, txn_number, axralevel23)>
+<!ELEMENT axrarefund (order_id, amount, txn_number, axralevel23)>
+<!ELEMENT axraind_refund (order_id, cust_id?, amount, pan, expdate, axralevel23)>
+<!ELEMENT axrapurchasecorrection (order_id, txn_number)>
+<!ELEMENT axraforcepost (order_id, cust_id?, amount, pan, expdate, auth_code, axralevel23)>
+<!ELEMENT axralevel23 (airline_process_id, invoice_batch, establishment_name, carrier_name, ticket_id, issue_city, establishment_state, number_in_party?, passenger_name, taa_routing, carrier_code, fare_basis, document_type, doc_number, departure_date)>
+<!ELEMENT airline_process_id (#PCDATA)>		<!-- Airline three-digit IATA code, Mandatory, Alphanumberic/3 -->
+<!ELEMENT invoice_batch (#PCDATA)>			<!-- Three-digit code that specifies processing options, Mandatory, Numeric/3 -->
+<!ELEMENT establishment_name (#PCDATA)>		<!-- Name of the ticket issuer, Mandatory, Alphanumberic/21 -->
+<!ELEMENT carrier_name (#PCDATA)>			<!-- Name of the ticketing airline, Mandatory, Alphanumberic/8 -->
+<!ELEMENT ticket_id (#PCDATA)>				<!-- Ticket or document number, Mandatory, Numeric/14 -->
+<!ELEMENT issue_city (#PCDATA)>				<!-- Name of the city, Mandatory, Alphanumberic/13 -->
+<!ELEMENT establishment_state (#PCDATA)>	<!-- State or province code, Mandatory, Alphanumberic/2 -->
+<!ELEMENT number_in_party (#PCDATA)>		<!-- Number of the people, Optional, Numeric/3 -->
+<!ELEMENT passenger_name (#PCDATA)>			<!-- Passenger name, Mandatory, Alphanumberic/20 -->
+<!ELEMENT taa_routing (#PCDATA)>			<!-- Flight stopover and city/airport codes, Mandatory, Alphanumberic/20 -->
+<!ELEMENT carrier_code (#PCDATA)>			<!-- Carrier designator codes, Mandatory, Alphanumberic/8 -->
+<!ELEMENT fare_basis (#PCDATA)>				<!-- Primary and secondary discount codes, Mandatory, Alphanumberic/24 -->
+<!ELEMENT document_type (#PCDATA)>			<!-- Airline document type code, Mandatory, Numeric/2 -->
+<!ELEMENT doc_number (#PCDATA)>				<!-- Number assigned to the airline document, Mandatory, Numeric/4 -->
+<!ELEMENT departure_date (#PCDATA)>			<!-- Departure date, Mandatory, Numeric/4 (MMDD) -->

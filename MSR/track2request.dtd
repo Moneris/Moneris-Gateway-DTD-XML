@@ -1,0 +1,104 @@
+<!-- The Request DTD CA -->
+
+<!-- Main Elements -->
+
+<!ELEMENT request (store_id, api_token, (purchase | refund | ind_refund | preauth | completion | purchasecorrection | forcepost | idebit_purchase | idebit_refund | cavv_preauth | cavv_purchase | batchclose | opentotals | recur_update | track2_purchase | track2_refund | track2_ind_refund | track2_preauth | track2_completion | track2_purchasecorrection))>
+<!ELEMENT store_id (#PCDATA)>
+<!ELEMENT api_token (#PCDATA)>
+
+<!ELEMENT track2_preauth (order_id, cust_id?, amount, pan, expdate, track2, pos_code, cust_info? )>
+<!ELEMENT track2_purchase (order_id, cust_id?, amount, pan, expdate, track2, pos_code, cust_info? )>
+<!ELEMENT track2_refund (order_id, amount, txn_number)>
+<!ELEMENT track2_ind_refund (order_id, cust_id?, amount, pan, expdate, track2, pos_code)>
+<!ELEMENT track2_completion (order_id, comp_amount, txn_number)>
+<!ELEMENT track2_purchasecorrection (order_id, txn_number)>
+<!ELEMENT enc_track1_preauth (order_id, cust_id?, amount, pos_code, device_type, cust_info?, rp_enc_track?, rp_format_id?, rp_last4_digits?,  rp_cardholder_name?, rp_expdate?, rp_partial_track?, rp_ksn? )>
+<!ELEMENT enc_track1_purchase (order_id, cust_id?, amount, pos_code, device_type, cust_info?, rp_enc_track?, rp_format_id?, rp_last4_digits?,  rp_cardholder_name?, rp_expdate?, rp_partial_track?, rp_ksn? )>
+<!ELEMENT enc_track1_ind_refund (order_id, cust_id?, amount, pos_code, device_type, cust_info?, rp_enc_track?, rp_format_id?, rp_last4_digits?,  rp_cardholder_name?, rp_expdate?, rp_partial_track?, rp_ksn? )>
+<!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, cust_info?, avs_info?, cvd_info?, recur? )>
+<!ELEMENT refund (order_id, amount, txn_number, crypt_type)>
+<!ELEMENT ind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type)>
+<!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, cust_info?, avs_info?, cvd_info?)>
+<!ELEMENT completion (order_id, comp_amount, txn_number, crypt_type)>
+<!ELEMENT purchasecorrection (order_id, txn_number, crypt_type)>
+<!ELEMENT forcepost (order_id, cust_id?, amount, pan, expdate, crypt_type, auth_code)>
+<!ELEMENT idebit_purchase(order_id, cust_id?, amount, idebit_track2) >
+<!ELEMENT idebit_refund(order_id, amount, txn_number)>
+<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, cust_info?, avs_info?, cvd_info?, recur?)>
+<!ELEMENT cavv_preauth (order_id, cust_id? amount, pan, expdate, cavv, cust_info?, avs_info?, cvd_info?)>
+<!ELEMENT recur_update (order_id, cust_id?, pan?, expdate?, recur_amount?, add_num_recurs?, total_num_recurs?, hold?, terminate?)>
+<!ELEMENT batchclose (ecr_number)>
+<!ELEMENT opentotals (ecr_number)>
+<!ELEMENT order_id (#PCDATA)>
+<!ELEMENT cust_id (#PCDATA)>
+<!ELEMENT track2 (#PCDATA)>
+<!ELEMENT pos_code (#PCDATA)>
+<!ELEMENT device_type (#PCDATA)>
+<!ELEMENT txn_number (#PCDATA)>
+<!ELEMENT crypt_type (#PCDATA)>
+<!ELEMENT auth_code (#PCDATA)>
+<!ELEMENT cavv (#PCDATA)>
+<!ELEMENT amount (#PCDATA)>
+<!ELEMENT comp_amount (#PCDATA)>
+<!ELEMENT pan (#PCDATA)>
+<!ELEMENT idebit_track2 (#PCDATA)>
+<!ELEMENT expdate (#PCDATA)>
+<!ELEMENT ecr_number (#PCDATA)>
+<!ELEMENT add_num_recurs (#PCDATA)> 
+<!ELEMENT total_num_recurs (#PCDATA)>
+<!ELEMENT hold (#PCDATA)>		
+<!ELEMENT terminate (#PCDATA)>
+<!ELEMENT rp_enc_track (#PCDATA)>
+<!ELEMENT rp_format_id (#PCDATA)>
+<!ELEMENT rp_last4_digits (#PCDATA)>
+<!ELEMENT rp_cardholder_name (#PCDATA)>
+<!ELEMENT rp_expdate (#PCDATA)>
+<!ELEMENT rp_partial_track (#PCDATA)>
+<!ELEMENT rp_ksn (#PCDATA)>
+
+<!-- start Cust Info -->
+<!ELEMENT cust_info (billing, shipping, email, instructions, item+)>
+<!ELEMENT billing (first_name, last_name, company_name, address, city, province, postal_code, country, phone_number, fax, tax1, tax2, tax3, shipping_cost)>
+<!ELEMENT shipping (first_name, last_name, company_name, address, city, province, postal_code, country, phone_number, fax, tax1, tax2, tax3, shipping_cost)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT instructions (#PCDATA)>
+<!ELEMENT item (name, quantity, product_code, extended_amount)>
+<!ELEMENT first_name (#PCDATA)>
+<!ELEMENT last_name (#PCDATA)>
+<!ELEMENT company_name (#PCDATA)>
+<!ELEMENT address (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT province (#PCDATA)>
+<!ELEMENT postal_code (#PCDATA)>
+<!ELEMENT country (#PCDATA)>
+<!ELEMENT phone_number (#PCDATA)>
+<!ELEMENT fax (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT quantity (#PCDATA)>
+<!ELEMENT product_code (#PCDATA)>
+<!ELEMENT extended_amount (#PCDATA)>
+<!ELEMENT tax1 (#PCDATA)>
+<!ELEMENT tax2 (#PCDATA)>
+<!ELEMENT tax3 (#PCDATA)>
+<!ELEMENT shipping_cost (#PCDATA)>
+
+<!-- start AVS -->
+<!ELEMENT avs_info (avs_street_number, avs_street_name, avs_zipcode)>
+<!ELEMENT avs_street_number (#PCDATA)>
+<!ELEMENT avs_street_name (#PCDATA)>
+<!ELEMENT avs_zipcode (#PCDATA)>
+
+<!-- start CVD -->
+<!ELEMENT cvd_info (cvd_indicator, cvd_value)>
+<!ELEMENT cvd_indicator (#PCDATA)>
+<!ELEMENT cvd_value (#PCDATA)>
+
+<!-- start Recur -->
+<!ELEMENT recur (recur_unit, start_now, start_date, num_recurs, period, recur_amount)>
+<!ELEMENT recur_unit (#PCDATA)>
+<!ELEMENT start_now (#PCDATA)>
+<!ELEMENT start_date (#PCDATA)>
+<!ELEMENT num_recurs (#PCDATA)>
+<!ELEMENT period (#PCDATA)>
+<!ELEMENT recur_amount (#PCDATA)>
+

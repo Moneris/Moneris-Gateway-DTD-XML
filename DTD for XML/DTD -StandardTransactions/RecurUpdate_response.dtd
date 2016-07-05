@@ -1,0 +1,16 @@
+<!-- The RecurUpdate Response DTD CA-->
+
+<!-- Main Elements -->
+
+<!ELEMENT response receipt>
+<!ELEMENT receipt (ReceiptId, ResponseCode, TransTime, TransDate, Complete, Message, TimedOut, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?)>
+<!ELEMENT ReceiptId (#PCDATA)>
+<!ELEMENT ResponseCode (#PCDATA)>
+<!ELEMENT TransTime (#PCDATA)>
+<!ELEMENT TransDate (#PCDATA)>
+<!ELEMENT Complete (#PCDATA)>
+<!ELEMENT Message (#PCDATA)>
+<!ELEMENT TimedOut (#PCDATA)>
+<!ELEMENT RecurUpdateSuccess (#PCDATA)>
+<!ELEMENT NextRecurDate (#PCDATA)>
+<!ELEMENT RecurEndDate (#PCDATA)>

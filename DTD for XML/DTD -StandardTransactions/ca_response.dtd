@@ -1,0 +1,58 @@
+<!-- The Response DTD CA-->
+
+<!-- Main Elements -->
+
+<!ELEMENT response (receipt+)>
+<!ELEMENT receipt (ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete,
+Message, TransAmount, CardType, TransID, TimedOut, BankTotals, Ticket, RecurSuccess?, CvdResultCode?, AvsResultCode?,
+CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit)>
+
+<!ELEMENT ReceiptId (#PCDATA)>
+<!ELEMENT ReferenceNum (#PCDATA)>
+<!ELEMENT ResponseCode (#PCDATA)>
+<!ELEMENT ISO (#PCDATA)>
+<!ELEMENT AuthCode (#PCDATA)>
+<!ELEMENT TransTime (#PCDATA)>
+<!ELEMENT TransDate (#PCDATA)>
+<!ELEMENT TransType (#PCDATA)>
+<!ELEMENT Complete (#PCDATA)>
+<!ELEMENT Message (#PCDATA)>
+<!ELEMENT TransAmount (#PCDATA)>
+<!ELEMENT CardType (#PCDATA)>
+<!ELEMENT TransID (#PCDATA)>
+<!ELEMENT TimedOut (#PCDATA)>
+<!ELEMENT BankTotals (ECR)>
+<!ELEMENT Ticket (#PCDATA)>
+<!ELEMENT CvdResultCode (#PCDATA)>
+<!ELEMENT AvsResultCode (#PCDATA)>
+<!ELEMENT RecurSuccess (#PCDATA)>
+<!ELEMENT IsVisaDebit (#PCDATA)>
+
+<!-- The following is only applicable if for CAVV validation transactions -->
+<!ELEMENT CavvResultCode (#PCDATA)>
+
+<!-- The following is only applicable for Amex and JCB ITD Validation -->
+<!ELEMENT ITDResponse (#PCDATA)>
+
+<!-- The following are only applicable if status_check is set to true in the request -->
+<!ELEMENT StatusCode (#PCDATA)>
+<!ELEMENT StatusMessage (#PCDATA)>
+
+<!-- The following are only applicable to the recur update transaction -->
+<!ELEMENT RecurUpdateSuccess (#PCDATA)>
+<!ELEMENT NextRecurDate (#PCDATA)>
+<!ELEMENT RecurEndDate (#PCDATA)>
+
+<!-- The following are only applicable in a batch close or open totals transaction -->
+<!ELEMENT ECR (term_id, closed, Card+)>
+<!ELEMENT Card (CardType, (Purchase | Refund | Correction)+)>
+
+<!ELEMENT term_id (#PCDATA)>
+<!ELEMENT closed (#PCDATA)>
+
+<!ELEMENT Purchase (Count, Amount)>
+<!ELEMENT Refund (Count, Amount)>
+<!ELEMENT Correction (Count, Amount)>
+
+<!ELEMENT Count (#PCDATA)>
+<!ELEMENT Amount (#PCDATA)>

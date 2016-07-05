@@ -1,0 +1,549 @@
+<!-- The Fraud Request DTD -->
+<!ELEMENT response (receipt)>
+<!ELEMENT receipt (ResponseCode,ReceiptId,Message, request_id, request_result,unknown_session,error_detail?,summary_risk_score?,policy_score?,
+    reason_code?,browser_info?,device_info?,true_ip_info?,proxy_ip_info?,account_name_info?,account_login_info?,password_hash_info?,
+    account_number_info?,account_email_info?,account_telephone_info?,cc_number_info?,account_address_info?,shipping_address_info?)>
+<!ELEMENT ResponseCode (#PCDATA)> <!--char 3,Three digit numbers. It is a positive response when it is less than 50-->
+<!ELEMENT ReceiptId (#PCDATA)> <!--char 64,The echoed order_id in the request-->
+<!ELEMENT Message (#PCDATA)> <!--char 255,Brief description message for this query-->
+<!ELEMENT request_id (#PCDATA)> <!--char 36,This is a unique number associated with the return request.Always returned-->
+<!ELEMENT request_result (#PCDATA)> <!--char 64,Always returned. enumerated value: -->
+                                    <!--• success - THM was able to process the request successfully-->
+                                    <!--• fail_access – THM was unable to process the request due to API verification failing-->
+                                    <!--• fail_verification - API query limit reached-->
+                                    <!--• fail_incomplete - THM was unable to process the request due to incomplete or incorrect input data-->
+                                    <!--• fail_internal_error – THM encountered an error while processing the request-->
+                                    <!--• fail_temporarily_unavailable – the request fail because the service is temporarily unavailable-->
+                                    <!--• fail_unknown_session – the supplied session_id was not valid-->
+                                    <!--• fail_not_enough_params – not enough device attributes were collected during profiling to perform-->
+                                    <!--  a fingerprint match-->
+                                    <!--• fail_duplicate_entities_of_same_type – more than one entity of the same was specified, e.g.-->
+                                    <--   password_hash was specified twice-->
+                                    <!--• fail_invalid_sha1_hash – the format of a parameter specified as a sha-1 hash was invalid-->
+                                    <!--• fail_invalid_account_number – the format of the supplied account number was invalid-->
+                                    <!--• fail_invalid_email_address – the format of the supplied email address was invalid-->
+                                    <!--• fail_invalid_telephone_number – the format of the supplied telephone number was invalid-->
+<!ELEMENT unknown_session (#PCDATA)> <!--char 3,If present, the value is “yes” and it indicates the session_id that was passed was not found.-->
+<!--                                   Always returned for session query-->
+<!ELEMENT error_detail (#PCDATA)> <!--char 255,Only present if request_result is an error.Only on error-->
+<!ELEMENT summary_risk_score (#PCDATA)> <!--integer,Currently the same as “policy_score”.Just for service type session-policy, ip and device-->
+<!ELEMENT policy_score (#PCDATA)> <!--integer,TThe sum of all risk weights from triggered rules within the selected policy in the range-->
+                                  <!-- [-100 .. 100]. 0 is considered neutral. Positive values indicate trusted devices, negative values-->
+                                  <!-- indicate anomalies. The more negative the value, the greater the risk. Just for service type session,-->
+                                  <!-- session-policy, ip and device-->
+<!ELEMENT reason_code (#PCDATA)> <!--char 64,The names of rules that have fired for this query. Each rule name is returned as a separate-->
+<!--                               name/value pair (multiple ‘reason_code’ keys can return in a single response).Just for service type -->
+<!--                               session-policy, ip and device-->
+<!ELEMENT browser_info (browser_language?, browser_string?,enabled_js?,enabled_fl?,enabled_ck?,enabled_im?,css_image_loaded?,image_loaded?,
+    flash_version?)>
+<!ELEMENT browser_language (#PCDATA)> <!--char 32,Language of the browser.Just for service type session-policy-->
+<!ELEMENT browser_string (#PCDATA)> <!--char 200,User agent / "Browser" string as communicated in HTTP header.Just for service type-->
+                                    <!-- session-policy-->
+<!ELEMENT enabled_js (#PCDATA)> <!--char 3,Yes/No,Flag indicating if JavaScript is enabled within the browser.Just for service type-->
+                                <!-- session-policy and session-->
+<!ELEMENT enabled_fl (#PCDATA)> <!--char 3,Yes/No,Flag indicating if Flash is enabled within the browser.Just for service type session-policy-->
+                                <!-- and session-->
+<!ELEMENT enabled_ck (#PCDATA)> <!--char 3,Yes/No,Flag indicating if cookies are enabled within the browser.Just for service type session-policy-->
+                                <!-- and session-->
+<!ELEMENT enabled_im (#PCDATA)> <!--char 3,Yes/No,Flag indicating if images are enabled within the browser.Just for service type session-policy-->
+                                <!-- and session-->
+<!ELEMENT css_image_loaded (#PCDATA)> <!--char 3,Yes/No,Flag indicating if the background image was loaded during profiling.Just for service-->
+                                      <!-- type session-policy-->
+<!ELEMENT image_loaded (#PCDATA)> <!--char 3,Yes/No,Flag indicating if the <img> image was loaded during profiling.Just for service type-->
+                                  <!-- session-policy-->
+<!ELEMENT flash_version (#PCDATA)> <!--char 32,Just for service type session-policy-->
+<!ELEMENT device_info (device_id?, device_result?,os?,screen_res?,local_time_offset?,local_time_offset_range?,time_zone?,device_score?,
+    device_attributes?,device_activities?,device_assert_history?,device_id_first_seen?,device_last_event?,device_last_update?,
+    device_id_match_result?,device_worst_score?,profiling_datetime?,fuzzy_device_id?,fuzzy_device_first_seen?,fuzzy_device_id_confidence?,
+    fuzzy_device_last_event?,fuzzy_device_match_result?,fuzzy_device_result?)>
+<!ELEMENT device_id (#PCDATA)> <!--char 36,The unique device identifier generated by ThreatMetrix.Just for service type session-policy-->
+                               <!--,did,device and session-->
+<!ELEMENT device_result (#PCDATA)> <!--char 10(success/not found),not found indicates this is the first time ThreatMETRIX has seen this entity-->
+                                   <!-- involved in a transaction;success indicates that ThreatMETRIX has intelligence on this entity.-->
+<!ELEMENT os (#PCDATA)> <!--char 32,Operating system as indicated by the client browser.Just for service type session-policy,device and session-->
+<!ELEMENT screen_res (#PCDATA)> <!--char 12,Screen resolution of the device.Just for service type session-policy,device and session-->
+<!ELEMENT local_time_offset (#PCDATA)> <!--float,This is time difference between the device's clock and the profiling server's clock in seconds.-->
+                                       <!--Just for service type session-policy,device and session-->
+<!ELEMENT local_time_offset_range (#PCDATA)> <!--float,This is the error or confidence associated with the local_time_offset.Just for service-->
+                                             <!-- type session-policy,device and session-->
+<!ELEMENT time_zone (#PCDATA)> <!--int,Time zone on the device clock.Just for service type session-policy,device and session-->
+<!ELEMENT device_score (#PCDATA)> <!--int,Risk score between +100 (good) and -100 (bad).Just for service type session-policy,device and session-->
+<!ELEMENT device_attributes (#PCDATA)> <!--char 64,Attributes associated with this device, consisting of Industry types.Refer to Table A2-->
+                                       <!-- - Industry Type in Appendix 1 for possible values. Just for service type session-policy,device-->
+                                       <!-- and session-->
+<!ELEMENT device_activities (#PCDATA)> <!--char 64,Activities associated with this device, consisting of Transfer Activities, Payment Activities-->
+                                       <!--, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer Activities, Table A4-->
+                                       <!-- - Payment Activities, Table A5 - Login Activities and Table A6 - Assertion/Transaction Type in-->
+                                       <!-- Appendix 1 for possible values.Just for service type session-policy,device and session-->
+<!ELEMENT device_assert_history (#PCDATA)> <!--char 64,Assertion history for this device. Refer to Table A1 in Appendix 1 for possible values.-->
+                                           <!--Just for service type session-policy,device and session-->
+<!ELEMENT device_last_update (#PCDATA)> <!--char 10(DATE),The date that the record for this entity was last updated, in yyyy-mm-dd format.Just-->
+                                        <!-- for service type session-policy,device and session-->
+<!ELEMENT device_worst_score (#PCDATA)> <!--int,The lowest score ever reached by this entity between 0 (neutral) and -100 (bad).Just for service-->
+                                        <!-- type session-policy,device and session-->
+<!ELEMENT profiling_datetime (#PCDATA)> <!--int,The arrival time of the first finger print attribute (for this session), expressed in seconds-->
+                                        <!-- since Midnight January 1 1970.Just for service type session-policy-->
+<!ELEMENT device_id_first_seen (#PCDATA)> <!--char 10(DATE),The date transaction was first made with the this identifier.-->
+<!ELEMENT device_last_event (#PCDATA)> <!--char 10(DATE),The last date of a transaction with this device yyyy-mm-dd format.Just for service type-->
+<!--                                     session-policy,device and session-->
+<!ELEMENT device_id_match_result (#PCDATA)> <!--char 36,has following values:
+<!--                                          • success - identified as a known device -->
+<!--                                          • new_device - identified as a new device -->
+<!--                                          • not_enough_attribs – no persistent identifiers (cookies) were available to make a match.-->
+<!--                                          Just for service type session-policy,device and session-->
+<!ELEMENT fuzzy_device_id (#PCDATA)> <!--char 36,A device identifier generated by ThreatMetrix from attributes collected during profiling. -->
+<!--                                   Also known as “Smart ID”.Just for service type session-policy,device,did and session-->
+<!ELEMENT fuzzy_device_first_seen (#PCDATA)> <!--char 10(DATE),The date transaction was first made with the this identifier.Just for service type-->
+<!--                                           did,session-policy,device and session-->
+<!ELEMENT fuzzy_device_id_confidence (#PCDATA)> <!--float -0..100],Probability of this ID uniquely representing a return device. The lower the-->
+<!--                                              number, the greater chance of a false positive.Just for service type session-policy,device,-->
+<!--                                             did and session-->
+<!ELEMENT fuzzy_device_last_event (#PCDATA)> <!--char 10(DATE),The date a last transaction was made with the this identifier.Just for service -->
+<!--                                           type session-policy,device,did and session-->
+<!ELEMENT fuzzy_device_match_result (#PCDATA)> <!--char 36,has following values:
+<!--                                          • success - identified as a known device -->
+<!--                                          • new_device - identified as a new device -->
+<!--                                          • not_enough_attribs – no persistent identifiers (cookies) were available to make a match.-->
+<!--                                          Just for service type session-policy,device,did and session-->
+<!ELEMENT fuzzy_device_result (#PCDATA)> <!--char 10(success/not found)-->
+<!--                                          • not found indicates this is the first time ThreatMetrix has seen this entity involved in a -->
+<!--                                            transaction -->
+<!--                                          • success indicates that ThreatMetrix has intelligence on this entity -->
+<!--                                          Just for service type session-policy,device,did and session-->
+<!ELEMENT true_ip_info (true_ip?, true_ip_activities?,true_ip_assert_history?,true_ip_attributes?,true_ip_city?,true_ip_geo?,true_ip_isp?,-->
+                        true_ip_last_update?,true_ip_lattitude?,true_ip_longitude?,true_ip_worst_score?,true_ip_score?)>
+<!ELEMENT true_ip (#PCDATA)> <!--char 64,The true client IP Address detected by ThreatMetrix. Just for service type session-policy,ip,device-->
+                             <!-- and session-->
+<!ELEMENT true_ip_activities (#PCDATA)> <!--char 64,Activities associated with IP Address based on infection detection and automated -->
+<!--                                        classification. Refer to Table A8 – IP Activities in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_assert_history (#PCDATA)> <!--char 64,Assertion history for this IP Address. Refer to Table A1 in Appendix 1 for possible -->
+<!--                                            values.Just for service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_attributes (#PCDATA)> <!--char 64,Attributes associated with IP Address based on infection detection and automated -->
+<!--                                        classification. Refer to Table A7 – IP Attributes in Appendix 1 for possible values. Just for -->
+<!--                                        service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_city (#PCDATA)> <!--char 50,The city the True IP is located in. Just for service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_geo (#PCDATA)> <!--char 2,The 2 character ISO2 country code of the True IP Address. Just for service type session-policy,ip,-->
+<!--                                        device and session-->
+<!ELEMENT true_ip_isp (#PCDATA)> <!--char 50,The ISP that the True IP address originates from. Just for service type session-policy,ip,device -->
+<!--                                 and session-->
+<!ELEMENT true_ip_last_update (#PCDATA)> <!--char 10(DATE),The date that the record for this entity was last updated, in yyyy-mm-dd format. J-->
+<!--                                       Just for service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_lattitude (#PCDATA)> <!--float, The latitude of the True IP. Just for service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_longitude (#PCDATA)> <!--float, The longitude of the True IP. Just for service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for -->
+<!--                                         service type session-policy,ip,device and session-->
+<!ELEMENT true_ip_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy,ip,device and-->
+<!--                                 session-->
+<!ELEMENT proxy_ip_info (proxy_ip?,proxy_ip_activities?,proxy_ip_assert_history?,proxy_ip_attributes?,proxy_ip_city?,proxy_ip_geo?,-->
+                         proxy_ip_isp?,proxy_ip_last_update?,proxy_ip_lattitude?,proxy_ip_longitude?,proxy_ip_worst_score?,proxy_ip_score?,
+                         proxy_type?)>
+<!ELEMENT proxy_ip (#PCDATA)> <!--char 64,If, available The IP address of the proxy. Just for service type session-policy,ip,device-->
+                             <!-- and session-->
+<!ELEMENT proxy_ip_activities (#PCDATA)> <!--char 64,Activities associated with IP Address based on infection detection and automated -->
+<!--                                        classification. Refer to Table A8 – IP Activities in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy,ip,device and session-->
+<!ELEMENT proxy_ip_assert_history (#PCDATA)> <!--char 64,Assertion history for this IP Address. Refer to Table A1 in Appendix 1 for possible -->
+<!--                                            values.Just for service type session-policy,ip,device and session-->
+<!ELEMENT proxy_ip_attributes (#PCDATA)> <!--char 64,Attributes associated with IP Address based on infection detection and automated -->
+<!--                                        classification. Refer to Table A7 – IP Attributes in Appendix 1 for possible values. Just for -->
+<!--                                        service type session-policy,ip,device and session-->
+<!ELEMENT proxy_ip_city (#PCDATA)> <!--char 50,The city the Proxy IP is located in. Just for service type session-policy-->
+<!ELEMENT proxy_ip_geo (#PCDATA)> <!--char 2,The 2 character ISO2 country code of the proxy IP Address. Just for service type session-policy-->
+<!ELEMENT proxy_ip_isp (#PCDATA)> <!--char 50,The ISP that the proxy IP address originates from. Just for service type session-policy-->
+<!ELEMENT proxy_ip_last_update (#PCDATA)> <!--char 64,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just for -->
+<!--                                       service type session-policy,ip,device and session-->
+<!ELEMENT proxy_ip_lattitude (#PCDATA)> <!--float, The latitude of the proxy IP. Just for service type session-policy-->
+<!ELEMENT proxy_ip_longitude (#PCDATA)> <!--float, The longitude of the proxy IP. Just for service type session-policy-->
+<!ELEMENT proxy_ip_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for -->
+<!--                                         service type session-policy,ip,device and session-->
+<!ELEMENT proxy_ip_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy,ip,device and -->
+<!--                                    session-->
+<!ELEMENT proxy_type (#PCDATA)> <!--char 32, Used to classify the type, and hence risk of the proxy in real time. -->
+<!--                                Anonymous – An anonymyzing proxy was detected. -->
+<!--                                Hidden – proxy is trying to avoid detection. is the highest risk proxy type. -->
+<!--                                Transparent – proxy is a transparent proxy. This Just for service type session-policy and ip-->
+<!ELEMENT account_name_info (account_name?,account_name_activities?,account_name_assert_history?,account_name_attributes?,-->
+                        account_name_last_update?,account_name_worst_score?,account_name_score?)>
+<!ELEMENT account_name (#PCDATA)> <!--char 255,The account name echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_name_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and session-->
+<!ELEMENT account_name_attributes (#PCDATA)> <!--char 64,Attributes associated with this account name, consisting of Industry types. Refer to -->
+<!--                                             Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_name_activities (#PCDATA)> <!--char 64,Activities associated with this account name, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT account_name_assert_history (#PCDATA)> <!--char 64,Assertion history for this account name. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT account_name_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT account_name_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for-->
+<!--                                              service type session-policy and session-->
+<!ELEMENT account_login_info (account_login?,account_login_activities?,account_login_assert_history?,account_login_attributes?,-->
+                        account_login_last_update?,account_login_worst_score?,account_login_score?)>
+<!ELEMENT account_login (#PCDATA)> <!--char 255,The account login echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_login_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and session-->
+<!ELEMENT account_login_attributes (#PCDATA)> <!--char 64,Attributes associated with this account login, consisting of Industry types. Refer to -->
+<!--                                             Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_login_activities (#PCDATA)> <!--char 64,Activities associated with this account login, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT account_login_assert_history (#PCDATA)> <!--char 64,Assertion history for this account login. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT account_login_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT account_login_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for-->
+<!--                                              service type session-policy and session-->
+<!ELEMENT password_hash_info (password_hash?,password_hash_activities?,password_hash_assert_history?,password_hash_attributes?,-->
+                        password_hash_last_update?,password_hash_worst_score?,password_hash_score?)>
+<!ELEMENT password_hash (#PCDATA)> <!--char 255,The password hash echoed back. Just for service type session-policy and session-->
+<!ELEMENT password_hash_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and session-->
+<!ELEMENT password_hash_attributes (#PCDATA)> <!--char 64,Attributes associated with this password hash, consisting of Industry types. Refer to -->
+<!--                                             Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT password_hash_activities (#PCDATA)> <!--char 64,Activities associated with this password hash, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT password_hash_assert_history (#PCDATA)> <!--char 64,Assertion history for this password hash. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT password_hash_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT password_hash_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for-->
+<!--                                              service type session-policy and session-->
+<!ELEMENT account_number_info (account_number?,account_number_activities?,account_number_assert_history?,account_number_attributes?,-->
+                        account_number_last_update?,account_number_worst_score?,account_number_score?)>
+<!ELEMENT account_number (#PCDATA)> <!--char 255,The account number echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_number_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and -->
+<!--                                        session-->
+<!ELEMENT account_number_attributes (#PCDATA)> <!--char 64,Attributes associated with this account number, consisting of Industry types. Refer -->
+<!--                                             to Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_number_activities (#PCDATA)> <!--char 64,Activities associated with this account number, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT account_number_assert_history (#PCDATA)> <!--char 64,Assertion history for this account number. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT account_number_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT account_number_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just -->
+<!--                                              for service type session-policy and session-->
+<!ELEMENT account_email_info (account_email?,account_email_activities?,account_email_assert_history?,account_email_attributes?,-->
+                        account_email_last_update?,account_email_worst_score?,account_email_score?)>
+<!ELEMENT account_email (#PCDATA)> <!--char 255,The account email echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_email_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and session-->
+<!ELEMENT account_email_attributes (#PCDATA)> <!--char 64,Attributes associated with this account email, consisting of Industry types. Refer to -->
+<!--                                             Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_email_activities (#PCDATA)> <!--char 64,Activities associated with this account email, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT account_email_assert_history (#PCDATA)> <!--char 64,Assertion history for this account email. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT account_email_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT account_email_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for-->
+<!--                                              service type session-policy and session-->
+<!ELEMENT account_telephone_info(account_telephone?,account_telephone_activities?,account_telephone_assert_history?,
+                                 account_telephone_attributes?,account_telephone_last_update?,account_telephone_worst_score?,
+                                 account_telephone_score?)>
+<!ELEMENT account_telephone (#PCDATA)> <!--char 255,The account telephone echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_telephone_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and -->
+<!--                                           session-->
+<!ELEMENT account_telephone_attributes (#PCDATA)> <!--char 64,Attributes associated with this account telephone, consisting of Industry types. -->
+<!--                                             Refer to Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_telephone_activities (#PCDATA)> <!--char 64,Activities associated with this account telephone, consisting of Transfer -->
+<!--                                                Activities, Payment Activities, Login Activities and Assertion/Transaction Types. Refer to-->
+<!--                                                Table A3 – Transfer Activities, Table A4 - Payment Activities, Table A5 - Login Activities-->
+<!--                                                and Table A6 Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                                service type session-policy and session-->
+<!ELEMENT account_telephone_assert_history (#PCDATA)> <!--char 64,Assertion history for this account telephone. Refer to Table A1 in Appendix 1-->
+<!--                                                 for possible values.Just for service type session-policy and session-->
+<!ELEMENT account_telephone_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format.-->
+<!--                                                 Just for service type session-policy and session-->
+<!ELEMENT account_telephone_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad).-->
+<!--                                                 Just for service type session-policy and session-->
+<!ELEMENT cc_number_info (cc_number?,cc_number_activities?,cc_number_assert_history?,cc_number_attributes?,-->
+                        cc_number_last_update?,cc_number_worst_score?,cc_number_score?)>
+<!ELEMENT cc_number (#PCDATA)> <!--char 255,The cc number echoed back. Just for service type session-policy and session-->
+<!ELEMENT cc_number_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and session-->
+<!ELEMENT cc_number_attributes (#PCDATA)> <!--char 64,Attributes associated with this cc number, consisting of Industry types. Refer to -->
+<!--                                             Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT cc_number_activities (#PCDATA)> <!--char 64,Activities associated with this cc number, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT cc_number_assert_history (#PCDATA)> <!--char 64,Assertion history for this cc number. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT cc_number_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format. Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT cc_number_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). Just for-->
+<!--                                              service type session-policy and session-->
+<!ELEMENT account_address_info (account_address_street1?,account_address_street2?,account_address_city?,account_address_state?,
+          account_address_zip?,account_address_country?,account_address_activities?,account_address_assert_history?,account_address_attributes?,
+          account_address_last_update?,account_address_worst_score?,account_address_score?)>
+<!ELEMENT account_address_street1 (#PCDATA)> <!--char 32,The account address 1 echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_address_street2 (#PCDATA)> <!--char 32,The account address 2 echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_address_city (#PCDATA)> <!--char 50,The account address city echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_address_state (#PCDATA)> <!--char 64,The account address state echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_address_zip (#PCDATA)> <!--char 8,The account address zip echoed back. Just for service type session-policy and session-->
+<!ELEMENT account_address_country (#PCDATA)> <!--char 2,The account address country echoed back. Just for service type session-policy and -->
+<!--                                           session-->
+<!ELEMENT account_address_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and -->
+<!--                                         session-->
+<!ELEMENT account_address_attributes (#PCDATA)> <!--char 64,Attributes associated with this account address, consisting of Industry types. -->
+<!--                                             Refer to Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT account_address_activities (#PCDATA)> <!--char 64,Activities associated with this account address, consisting of Transfer Activities, -->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT account_address_assert_history (#PCDATA)> <!--char 64,Assertion history for this account address. Refer to Table A1 in Appendix 1 for -->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT account_address_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated, in yyyy-mm-dd format.-->
+<!--                                            Just for service type session-policy and session-->
+<!ELEMENT account_address_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad).-->
+<!--                                               Just for service type session-policy and session-->
+<!ELEMENT shipping_address_info (shipping_address_street1?,shipping_address_street2?,shipping_address_city?,shipping_address_state?,
+          shipping_address_zip?,shipping_address_country?,shipping_address_activities?,shipping_address_assert_history?,
+          shipping_address_attributes?,shipping_address_last_update?,shipping_address_worst_score?,shipping_address_score?)>
+<!ELEMENT shipping_address_street1 (#PCDATA)> <!--char 32,The shipping address 1 echoed back. Just for service type session-policy and session-->
+<!ELEMENT shipping_address_street2 (#PCDATA)> <!--char 32,The shipping address 2 echoed back. Just for service type session-policy and session-->
+<!ELEMENT shipping_address_city (#PCDATA)> <!--char 50,The shipping address city echoed back. Just for service type session-policy and session-->
+<!ELEMENT shipping_address_state (#PCDATA)> <!--char 64,The shipping address state echoed back. Just for service type session-policy and session-->
+<!ELEMENT shipping_address_zip (#PCDATA)> <!--char 8,The shipping address zip echoed back. Just for service type session-policy and session-->
+<!ELEMENT shipping_address_country (#PCDATA)> <!--char 2,The shipping address country echoed back. Just for service type session-policy and -->
+<!--                                            session-->
+<!ELEMENT shipping_address_score (#PCDATA)> <!--int, Risk score between +100 (good) and -100 (bad). Just for service type session-policy and-->
+<!--                                          session-->
+<!ELEMENT shipping_address_attributes (#PCDATA)> <!--char 64,Attributes associated with this shipping address, consisting of Industry types.-->
+<!--                                             Refer to Table A2 - Industry Type in Appendix 1 for possible values. Just for -->
+<!--                                             service type session-policy and session-->
+<!ELEMENT shipping_address_activities (#PCDATA)> <!--char 64,Activities associated with this shipping address, consisting of Transfer Activities,-->
+<!--                                         Payment Activities, Login Activities and Assertion/Transaction Types. Refer to Table A3 – Transfer-->
+<!--                                         Activities, Table A4 - Payment Activities, Table A5 - Login Activities and Table A6--->
+<!--                                         Assertion/Transaction Type in Appendix 1 for possible values. Just for-->
+<!--                                        service type session-policy and session-->
+<!ELEMENT shipping_address_assert_history (#PCDATA)> <!--char 64,Assertion history for this shipping address. Refer to Table A1 in Appendix 1 for-->
+<!--                                                 possible values.Just for service type session-policy and session-->
+<!ELEMENT shipping_address_last_update (#PCDATA)> <!--char 10,The date that the record for this entity was last updated,in yyyy-mm-dd format.Just-->
+<!--                                            for service type session-policy and session-->
+<!ELEMENT shipping_address_worst_score (#PCDATA)> <!--int, The lowest score ever reached by this entity between 0 (neutral) and -100 (bad). -->
+<!--                                              Just for service type session-policy and session-->
+
+<!-- Appendix 1 -->   
+<!-- Table A1 – Assertion History-->
+<!--SUSPICIOUS--This entity has been marked as suspicious.-->
+<!--CONFIRMED_BAD--This entity has been confirmed as being bad by an analyst.-->
+<!--CONFIRMED_GOOD--This entity has been confirmed as being “good”/trusted by an analyst.-->
+<!--NEGATIVE_HISTORY--This entities score has been negative at some point in the past.-->
+<!--LAST_ACTIVITY_AGE0--This entity has been detected performing activities within last 0-7 days.-->
+<!--LAST_ACTIVITY_AGE1--This entity has been detected performing activities within last 0-24 hours.-->
+<!--LAST_ACTIVITY_AGE2--This entity has detected performing activities within last 0-1 hours.-->
+<!--Table A1 end-->
+<!--Table A2 - Industry Type-->
+<!--BANKING--Activity related to a bank website-->
+<!--NONBANK FINANCE--Activity related to non-bank website-->
+<!--COMP_ELECTRONICS--Activity related to consumer electrical and electronics-->
+<!--FLOWER_GIFTS--Activity related to flowers and gifts-->
+<!--APPAREL--Activity related to a clothing and accessory site-->
+<!--JEWELRY--Activity related to a jewelry site-->
+<!--RETAIL_GENERAL--Activity related to an online retail site-->
+<!--SOFTWARE_DIGITAL--Activity related to software or digital media site-->
+<!--FOOD_DRUG--Activity related to a food and/or drug site-->
+<!--SPORT_REC--Activity related to a sporting goods site-->
+<!--HEALTH_BEAUTY--Activity related to a health/beauty site-->
+<!--TRAVEL_ACCOM--Activity related to a travel/accommodation site-->
+<!--ENTERTAINMENT--Activity related to a entertainment site-->
+<!--INDUSTRY_OTHER--Activity related to other sites-->
+<!--Table A2 end-->
+<!--Table A3 - Transfer Activities-->
+<!--LAUNDERING--An entity is suspected of attempting to disguise the true beneficiary of a transfer.-->
+<!--RESTRICTED_ORG--The organization receiving the transfer/payment is a restricted organization e.g. terrorist related.-->
+<!--UNAUTH_TRANSFER--The transfer was unauthorized.-->
+<!--CHARGE_BACK--There has been a change back related to the entity. History of charge backs may indicate the presence of ‘friendly fraud’.-->
+<!--PAYMENT_FRAUD--Payment fraud e.g. card not present fraud was attempted from this entity.-->
+<!--CARD_ADDRESS--The billing address did not match the address held by the issuing bank.-->
+<!--CARD_NUMBER--The card number and or expiry date was not valid for the issuing bank.-->
+<!--VELOCITY--The card/IP Address/FP has processed a suspicious volume of transactions.-->
+<!--AMOUNT--Sometimes card thieves will run a test transaction to see if a card is still ‘live’ by running through small purchases.-->
+<!--QUANTITY--The quantity transacted is suspicious e.g. 100s of TVs of the same make ordered at the same time.-->
+<!--ADDRESS--The billing/shipping address has been associated with fraud in the past.-->
+<!--GEOLOCATION--The IP Address did not match billing/shipping details.-->
+<!--TIME--The transaction was performed during an unusual time.-->
+<!--Table A3 end-->
+<!--Table A4 - Payment Activities-->
+<!--CHARGE_BACK--There has been a change back related to the entity. History of charge backs may indicate the presence of ‘friendly fraud’.-->
+<!--PAYMENT_FRAUD--Payment fraud e.g. card not present fraud was attempted from this entity.-->
+<!--CARD_ADDRESS--The billing address did not match the address held by the issuing bank.-->
+<!--CARD_NUMBER--The card number and or expiry date was not valid for the issuing bank.-->
+<!--VELOCITY--The card/IP Address/FP has processed a suspicious volume of transactions.-->
+<!--AMOUNT--Sometimes card thieves will run a test transaction to see if a card is still ‘live’ by running through small purchases.-->
+<!--QUANTITY--The quantity transacted is suspicious e.g. 100s of TVs of the same make ordered at the same time.-->
+<!--ADDRESS--The billing/shipping address has been associated with fraud in the past.-->
+<!--GEOLOCATION--The IP Address did not match billing/shipping details.-->
+<!--TIME--The transaction was performed during an unusual time.-->
+<!--Table A4 end-->
+<!--Table A5 - Login Activities-->
+<!--DETAILS_CHANGE--There have been frequent or suspicious changes made to the details of the account e.g. changed physical or email address-->
+<!--                several times.-->
+<!--LOGIN_ATTEMPT--There have been many failed or suspicious login attempts (e.g. an IP Address tries brute force attack).-->
+<!--ACCOUNT_ABUSE--There has been abusive behavior related to the account, for example, comment spam or unwanted chatroom language.-->
+<!--ACCOUNT_HIJACKED--The account was compromised, or hacked into.-->
+<!--MAN_IN_MIDDLE--The account was subject to a man in the middle attack, for example, a phishing site that logs in on behalf of a user-->
+<!--Table A5 end-->
+<!--Table A6 - Assertion/Transaction Type
+<!--LOGIN--An account login related event.
+<!--PAYMENT--Purchase of goods/services.
+<!--TRANSFER--A money transfer between accounts.
+<!--IP_ADDRESS--Reporting an IP Address performing various activities.
+<!--TRANSACTION--OTHER Other transaction types.
+<!--AUCTION_BID--Reporting a good/bad/suspicious online auction bid.
+<!--DETAILS_CHANGE--Reporting a good/bad/suspicious change of account details.
+<!--ACCOUNT_CREATION--Reporting a good/bad/suspicious creation of account.
+<!--ADD_LISTING--Reporting a good/bad/suspicious listing added to an online auction site.
+<!--ACCOUNT_BALANCE--Reporting a good/bad/suspicious account balance request.
+<!--TRANSACTION_HISTORY--Reporting a good/bad/suspicious account transaction history requested.
+<!--DIGITAL_DOWNLOAD--Reporting a good/bad/suspicious online purchase for software goods that were delivered electronically.
+<!--DIGITAL_STREAM--Reporting a good/bad/suspicious online purchase of digital media that was streamed to the user.
+<!--Table A6 end-->
+<!--Table A7 – IP Attributes-->
+<!--DYNAMIC--IP has been detected as being dynamic.-->
+<!--STATIC--IP has been detected as being static.-->
+<!--BOGON--IP has been detected as being part of the bogon IP ranges.-->
+<!--HIJACKED--IP has been detected as being part of the hijacked IP ranges.-->
+<!--BOTNET_ZOMBIE--IP has been detected as being either a zombie or part of a botnet.-->
+<!--OPEN_RELAY--IP was detected as being an open relay.-->
+<!--OPEN_PROXY--IP was detected as being an open proxy.-->
+<!--PROXY--IP was detected as being a proxy.-->
+<!--NAME_SERVER--IP was detected running a name server.-->
+<!--RANGE--IP is part of an ip-range.-->
+<!--PORTAL--IP has been detected as being a portal.-->
+<!--Table A7 end-->
+<!--Table A8 - IP Activities-->
+<!--PHISH--IP has been detected performing phishing related activities.-->
+<!--NIGERIAN--IP has been detected as being involved in Nigerian email/spam related activities.-->
+<!--UDP_SCAN_FLAG--IP address has been detected performing UDP port scanning.-->
+<!--TCP_SCAN_FLAG--IP address has been detected performing TCP port scanning.-->
+<!--CONNECTING_TO_BOTNET--IP address has been detected as attempting to connect to a botnet.-->
+<!--CONNECTING_TO_MALWARE_SITE --IP address has been detected as attempting to connect to a malware site.-->
+<!--IRC_CONNECTION_ANOMALY--IP address has been detected as connecting to a suspicious IRC server.-->
+<!--DNS_CONNECTION_ANOMALY--A DNS connection anomaly has been detected for this IP address.-->
+<!--BANK--The IP address belongs to a financial organization.-->
+<!--CLICK_FRAUD--IP address has been detected as being involved in click fraud.-->
+<!--MALWARE--IP address has been detected as being involved in malware related activity.-->
+<!--INSTANT_MSG--IP address has been detected performing instant messaging activity.-->
+<!--P2P--IP address has been detected performing peer-to-peer related communications.-->
+<!--SPAM--IP address has been detected as sending spam.-->
+<!--LEGITIMATE--IP has been verified as being “good”/trusted.-->
+<!--OTHER--IP has been involved in other activities.-->
+<!--Table A8 end-->
+<!--Table A9 – Event Type-->
+<!--LOGIN--A user logging into an account.-->
+<!--PAYMENT--Purchasing of goods/services.-->
+<!--TRANSFER--A money transfer between accounts.-->
+<!--TRANSACTION_OTHER--Other transaction types.-->
+<!--AUCTION_BID--An online auction bid.-->
+<!--DETAILS_CHANGE--A change of account details.-->
+<!--ACCOUNT_CREATION--The creation of a new account.-->
+<!--ADD_LISTING--A listing was added to an online auction site.-->
+<!--ACCOUNT_BALANCE--An account balance request.-->
+<!--TRANSACTION_HISTORY--An account transaction history was requested.-->
+<!--DIGITAL_DOWNLOAD--An online purchase for software goods that were delivered electronically.-->
+<!--DIGITAL_STREAM--An online purchase of digital media that was streamed to the user.-->
+<!--Table A9 end-->
+<!--Appendix 2 – Reason Codes-->
+<!--The following table provides an example list of the pre-defined reason codes that may be-->
+<!--returned. A reason code corresponds with a rule that is matched. See the Portal Configuration-->
+<!--Guide for more information on how to configure rules.-->
+<!--NOTE: Test accounts will only have a limited subset of rules defined.-->
+<!--REASON CODE/RULE NAME DESCRIPTION-->
+<!--Account_Local_Address_Zip--Matches a local black/whitelist based on account_address_zip-->
+<!--Account_Local_Email--Matches a local black/whitelist based on account_email-->
+<!--Account_Local_Login--Matches a local black/whitelist based on account_login-->
+<!--Account_Local_Shipping_Zip--Matches a local black/whitelist based on shipping_address_zip-->
+<!--Account_Local_Telephone--atches a local black/whitelist based on account_telephone-->
+<!--Device_Global--Matches a global fraud assertion by this device_id-->
+<!--Device_Local--Matches a local black/whitelist based on device_id-->
+<!--Device_Local_Velocity_Long--If device_id > N times per week, where N = velocity. A rule using this policy will trigger if the same device-->
+<!--                            id transacts with your site more than 5 times in a week. Change the velocity value to change the maximum-->
+<!--                            number of times per week a device can connect before the rule will trigger.-->
+<!--Device_Local_Velocity_Medium--If device_id > N times per day, where N = velocity. A rule using this policy will trigger if the same device-->
+<!--                              id transacts with your site more than 4 times in a day. Change the velocity value to change the maximum-->
+<!--                              number of times per day a device can connect before the rule will trigger.-->
+<!--Device_Local_Velocity_Short--If device_id > N times per hour, where N = velocity, default = 3. Detects when the same device id transacts-->
+<!--                             with your site more than 3 times in an hour. Change the velocity value to change the maximum number of times-->
+<!--                             per hour a device can connect before the rule will trigger.-->
+<!--Dynamic_Anomaly_Detect--Detects when events with common attributes also have an attribute that varies. For example this could mean-->
+<!--                        multiple identities being used on the same device.-->
+<!--Geo_Account_TrueGeo--Account address is in a different location than the True Geo-->
+<!--Geo_BIN_Number_AccountGeo--Checks that the geo-location of the bank that issued the credit card number and the account address match.-->
+<!--Geo_BIN_Number_ShippingGeo--Checks that the geo-location of the bank that issued the credit card number and the shipping address match-->
+<!--Geo_BIN_Number_TrueGeo--Bank that issued the credit card is in a different country to the device country-->
+<!--Geo_Local_TrueGeo--True Geo does not match specified countries.-->
+<!--Geo_Shipping_TrueGeo--Shipping address geo-location is different to IP Address geo-location.-->
+<!--Geo_TrueGeo_ProxyGeo--Location of proxy and true IP do not match, i.e. - they are in different countries.-->
+<!--IP_Global--Matches a global fraud assertion for this IP Address.-->
+<!--IP_Global_Proxy_Risk--Proxy IP reputation is negative from ThreatINDEX-->
+<!--IP_Global_Risk--True IP reputation is negative from ThreatINDEX-->
+<!--IP_Global_Velocity_Long--If true_ip > N times per week in ThreatINDEX system wide-->
+<!--IP_Global_Velocity_Medium--If true_ip > N times per day in ThreatINDEX system wide-->
+<!--IP_Global_Velocity_Short--If true_ip > N times per hour in ThreatINDEX system wide
+<!--IP_Local--Matches a local white/blacklist on IP Address-->
+<!--IP_Local_Velocity_Long--If true_ip > N times per week, where N = velocity, default =4. Detects when the same IP address transacts with your-->
+<!--                        site more than 4 times in a week. Change the velocity value to change the maximum number of times per week an IP-->
+<!--                        address can connect before the rule will trigger.-->
+<!--IP_Local_Velocity_Medium--If true_ip > N times per day, where N = velocity, default =3. Detects when the same IP address transacts with your-->
+<!--                          site more than 3 times in a day. Change the velocity value to change the maximum number of times per day an IP-->
+<!--                          address can connect before the rule will trigger.-->
+<!--IP_Local_Velocity_Short--If true_ip > N times hour, where N = velocity, default =2. Detects when the same IP address transacts with your-->
+<!--                         site more than 2 times in an hour. Change the velocity value to change the maximum number of times per hour an IP-->
+<!--                         address can connect before the rule will trigger.-->
+<!--IP_ProxyType--Detect when a specific type of proxy is being used. For example, a hidden proxy.-->
+<!--Pattern_Local_Account_Device Multiple--Devices with same account (name/number)-->
+<!--Pattern_Local_Account_Device_New--Different (new) Device seen for account-->
+<!--Pattern_Local_Account_ProxyGeo--Multiple ProxyGeos seen for same Account-->
+<!--Pattern_Local_Account_ProxyIP--Multiple ProxyIP addresses with same account (name/number)-->
+<!--Pattern_Local_Account_TrueGeo--Multiple True Geos seen for same Account-->
+<!--Pattern_Local_Account_TrueGeo--New Different (new) Device seen for account-->
+<!--Pattern_Local_Account_TrueIP--Multiple True IP addresses with same account (name/number)-->
+<!--Pattern_Local_Device_Email--Multiple Email addresses seen for this Device-->
+<!--Pattern_Local_Device_ProxyGeo--Multiple ProxyGeos seen for Device-->
+<!--Pattern_Local_Device_ProxyIP--Multiple ProxyIP Addresses seen for same Device-->
+<!--Pattern_Local_Device_Screenres--Multiple Screen Resolutions seen for Device-->
+<!--Pattern_Local_Device_Timezone--Multiple Timezones seen for Device-->
+<!--Pattern_Local_Device_TrueGeo--Multiple True Geos seen for Device-->
+<!--Pattern_Local_Device_TrueIP--Multiple True IP Addresses seen for same Device-->
+<!--Pattern_Local_Email_Device--Multiple Devices using same email-->
+<!--Pattern_Local_Email_Device_New--Different (new) Device seen for email.-->
+<!--Pattern_Local_Email_ProxyIP--Multiple ProxyIP addresses for same email-->
+<!--Pattern_Local_Email_TrueGeo--Multiple True Geos seen for email.-->
+<!--Pattern_Local_Email_TrueGeo_New--Different (new) Device seen for email.-->
+<!--Pattern_Local_Email_TrueIP--Multiple True IP addresses for same email-->
+<!--Pattern_Local_TrueIP_Account--Multiple Accounts seen for single True IP-->
+<!--Pattern_Local_TrueIP_Device--Multiple Devices seen for single True IP-->
+<!--Pattern_Local_TrueIP_Email--Multiple emails seen for single True IP-->
+<!--Pattern_Local_TrueIP_ProxyGeo--Multiple Proxy Geos seen for single True IP-->
+<!--Pattern_Local_TrueIP_ProxyIP--Multiple Proxy IPs seen for single True IP-->
+<!--Pattern_Local_TrueIP_Timezone--Multiple Timezones seen for single True IP-->
+<!--Session_Anomaly--A session anomaly is triggered when device characteristics change in the same session, indicating a man-in-the-middle-->
+<!--                 attack. Changes include Device ID, operating system and/or IP address.-->
+<!--Session_Cloaking--Session cloaking will be detected if the device (or proxy) has disabled browser functions.-->
+<!--Session_Cloaking_Generic--Detect when a specific combination of enabled/disabled flags exists.-->
+<!--Time_TimeZone_TrueGeo--Looks for a range of valid time zones for the country (based on IP address True Geo) and compares these with the-->
+<!--                       device operating system time zone. If the time zone of the operating system does not match a valid TrueGeo time zone-->
+<!--                       this rule will trigger.-->
