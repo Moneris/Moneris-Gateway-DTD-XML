@@ -5,7 +5,7 @@
 <!ELEMENT response (receipt+)>
 <!ELEMENT receipt (ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete,
 Message, TransAmount, CardType, TransID, TimedOut, BankTotals, Ticket, RecurSuccess?, CvdResultCode?, AvsResultCode?,
-CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit)>
+CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit, IssuerId)>
 
 <!ELEMENT ReceiptId (#PCDATA)>
 <!ELEMENT ReferenceNum (#PCDATA)>
@@ -27,6 +27,7 @@ CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?,
 <!ELEMENT AvsResultCode (#PCDATA)>
 <!ELEMENT RecurSuccess (#PCDATA)>
 <!ELEMENT IsVisaDebit (#PCDATA)>
+<!ELEMENT IssuerId (#PCDATA)>
 
 <!-- The following is only applicable if for CAVV validation transactions -->
 <!ELEMENT CavvResultCode (#PCDATA)>

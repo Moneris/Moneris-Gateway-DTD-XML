@@ -11,14 +11,14 @@ recur_update))>
 <!ELEMENT status_check (#PCDATA)>
 
 <!--The following are the basic credit card transactions -->
-<!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur? )>
+<!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?, recur? )>
 <!ELEMENT refund (order_id, amount, txn_number, crypt_type)>
 <!ELEMENT ind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?)>
-<!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?)>
+<!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?)>
 <!ELEMENT completion (order_id, comp_amount, txn_number, crypt_type, ship_indicator?)>
 <!ELEMENT purchasecorrection (order_id, txn_number, crypt_type, ship_indicator?)>
 <!ELEMENT forcepost (order_id, cust_id?, amount, pan, expdate, crypt_type, auth_code, dynamic_descriptor?)>
-<!ELEMENT card_verification (order_id, cust_id?, pan, expdate, crypt_type, avs_info?, cvd_info?)>
+<!ELEMENT card_verification (order_id, cust_id?, pan, expdate, crypt_type, avs_info?, cvd_info?, cof_info?)>
 <!ELEMENT reauth (order_id, cust_id?, orig_order_id, txn_number, amount, crypt_type)>
 
 <!--The following are the Interac Online transactions -->
@@ -27,8 +27,8 @@ recur_update))>
 
 <!--The following are for Verified by Visa and/or MasterCard SecureCode transactions -->
 <!--NOTE: To assist in any chargeback investigations, it is recommended to store the ‘XID’ (order_id) returned from the MPI for future reference. -->
-<!ELEMENT cavv_preauth (order_id, cust_id? amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?)>
-<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur?)>
+<!ELEMENT cavv_preauth (order_id, cust_id? amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?)>
+<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur?, cof_info?)>
 
 <!--The following are general administrative transactions -->
 <!ELEMENT batchclose (ecr_number)>
@@ -107,4 +107,10 @@ recur_update))>
 <!ELEMENT num_recurs (#PCDATA)>
 <!ELEMENT period (#PCDATA)>
 <!ELEMENT recur_amount (#PCDATA)>
+
+<!-- start COF -->
+<!ELEMENT cof_info (payment_indicator?, payment_information?, issuer_id?)>
+<!ELEMENT payment_indicator (#PCDATA)>
+<!ELEMENT payment_information (#PCDATA)>
+<!ELEMENT issuer_id (#PCDATA)>
 
