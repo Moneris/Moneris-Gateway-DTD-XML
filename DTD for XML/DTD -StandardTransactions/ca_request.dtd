@@ -2,39 +2,65 @@
 
 <!-- Main Elements -->
 
-<!ELEMENT request (store_id, api_token, status_check? (purchase | refund | ind_refund | preauth | completion | purchasecorrection |
-forcepost | reauth | card_verification | idebit_purchase | idebit_refund | cavv_preauth | cavv_purchase | batchclose | opentotals |
-recur_update))>
+<!ELEMENT request (store_id, api_token, status_check?, (purchase | refund | ind_refund | preauth | completion | purchasecorrection | 
+  forcepost | reauth | card_verification | idebit_purchase | idebit_refund | cavv_preauth | cavv_purchase | 
+  mcp_completion | mcp_ind_refund | mcp_preauth | mcp_purchase | mcp_purchasecorrection | mcp_refund | mcp_res_ind_refund_cc | mcp_res_preauth_cc | mcp_res_purchase_cc | mcp_get_rate |
+  batchclose | opentotals | recur_update | applepay_token_purchase | applepay_token_preauth | googlepay_purchase | googlepay_preauth))>
 
 <!ELEMENT store_id (#PCDATA)>
 <!ELEMENT api_token (#PCDATA)>
 <!ELEMENT status_check (#PCDATA)>
 
 <!--The following are the basic credit card transactions -->
-<!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?, recur? )>
+<!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur?,cof_info? )>
 <!ELEMENT refund (order_id, amount, txn_number, crypt_type)>
 <!ELEMENT ind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?)>
-<!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?)>
+<!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?,cof_info?)>
 <!ELEMENT completion (order_id, comp_amount, txn_number, crypt_type, ship_indicator?)>
 <!ELEMENT purchasecorrection (order_id, txn_number, crypt_type, ship_indicator?)>
 <!ELEMENT forcepost (order_id, cust_id?, amount, pan, expdate, crypt_type, auth_code, dynamic_descriptor?)>
-<!ELEMENT card_verification (order_id, cust_id?, pan, expdate, crypt_type, avs_info?, cvd_info?, cof_info?)>
+<!ELEMENT card_verification (order_id, cust_id?, pan, expdate, crypt_type, avs_info?, cvd_info?,cof_info?)>
 <!ELEMENT reauth (order_id, cust_id?, orig_order_id, txn_number, amount, crypt_type)>
 
 <!--The following are the Interac Online transactions -->
-<!ELEMENT idebit_purchase(order_id, cust_id?, amount, idebit_track2) >
-<!ELEMENT idebit_refund(order_id, amount, txn_number)>
+<!ELEMENT idebit_purchase (order_id, cust_id?, amount, idebit_track2) >
+<!ELEMENT idebit_refund (order_id, amount, txn_number)>
 
 <!--The following are for Verified by Visa and/or MasterCard SecureCode transactions -->
-<!--NOTE: To assist in any chargeback investigations, it is recommended to store the ‘XID’ (order_id) returned from the MPI for future reference. -->
-<!ELEMENT cavv_preauth (order_id, cust_id? amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, cof_info?)>
-<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur?, cof_info?)>
+<!--NOTE: To assist in any chargeback investigations, it is recommended to store the 'XID' (order_id) returned from the MPI for future reference. -->
+<!ELEMENT cavv_preauth (order_id , cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version?, threeds_server_trans_id?, cust_info?, avs_info?, cvd_info?, cof_info?)>
+<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version?, threeds_server_trans_id?, cust_info?, avs_info?, cvd_info?, recur?, cof_info?)>
+
+<!--The following are the Multi-currency transactions (MCP) -->
+<!ELEMENT mcp_completion (order_id, txn_number, crypt_type, cust_id, dynamic_descriptor?, ship_indicator?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?) >
+<!ELEMENT mcp_ind_refund (order_id, cust_id, pan,expdate, crypt_type, dynamic_descriptor?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_preauth (order_id, cust_id, pan, expdate, crypt_type, dynamic_descriptor?, wallet_indicator?, market_indicator?, cm_id?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_purchase (order_id, cust_id, pan, expdate, crypt_type, dynamic_descriptor?, wallet_indicator?, market_indicator?, cm_id?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_purchasecorrection (order_id, txn_number, crypt_type, cust_id)>
+<!ELEMENT mcp_refund (order_id, amount, txn_number, crypt_type, cust_id, dynamic_descriptor?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_res_ind_refund_cc (data_key, order_id,cust_id, crypt_type, dynamic_descriptor?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_res_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_res_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_get_rate (mcp_version, rate_txn_type, rate_info)>
 
 <!--The following are general administrative transactions -->
 <!ELEMENT batchclose (ecr_number)>
 <!ELEMENT opentotals (ecr_number)>
-<!ELEMENT recur_update (order_id, cust_id?, pan?, expdate?, recur_amount?, add_num_recurs?, total_num_recurs?, hold?, terminate?)>
+<!ELEMENT recur_update (order_id, cust_id?, pan?, expdate?, recur_amount?, add_num_recurs?, total_num_recurs?, hold?, terminate?,cof_info?)>
 
+<!--The following are the Wallet Transactions (ApplePay and GooglePay) -->
+<!ELEMENT applepay_token_purchase (order_id, cust_id?, amount, displayName, network, version, data, signature, header, type, dynamic_descriptor?, token_originator?)>
+<!ELEMENT applepay_token_preauth (order_id, cust_id?, amount, displayName, network, version, data, signature, header, type, dynamic_descriptor?, token_originator?)>
+<!ELEMENT googlepay_purchase (order_id, cust_id?, amount, network, payment_token, dynamic_descriptor?)>
+<!ELEMENT googlepay_preauth (order_id, cust_id?, amount, network, payment_token, dynamic_descriptor?)>
+
+<!--The following are the 3DS 2.0 transactions -->
+<!ELEMENT Mpi2Request (store_id, api_token, (card_lookup | threeds_authentication | cavv_lookup))>
+<!ELEMENT card_lookup (order_id, (data_key | pan), notification_url)>
+<!ELEMENT threeds_authentication (order_id, cardholder_name, (data_key | pan), expdate, amount, currency?, threeds_completion_ind, request_type, notification_url, purchase_date, challenge_windowsize, bill_address1?, bill_province?, bill_city?, bill_postal_code?, bill_country?, ship_address1?, ship_province?, ship_city?, ship_postal_code?, ship_country?, browser_useragent, browser_java_enabled, browser_screen_height, browser_screen_width, browser_language, email?, request_challenge?)>
+<!ELEMENT cavv_lookup (cres)>
+
+<!-- start standard -->
 <!ELEMENT order_id (#PCDATA)>
 <!ELEMENT orig_order_id (#PCDATA)>
 <!ELEMENT cust_id (#PCDATA)>
@@ -53,6 +79,9 @@ recur_update))>
 <!ELEMENT total_num_recurs (#PCDATA)>
 <!ELEMENT hold (#PCDATA)>
 <!ELEMENT terminate (#PCDATA)>
+<!ELEMENT ship_indicator (#PCDATA)>
+<!ELEMENT wallet_indicator (#PCDATA)>
+<!ELEMENT market_indicator (#PCDATA)>
 
 <!-- start Cust Info -->
 <!ELEMENT cust_info (billing, shipping, email, instructions, item+)>
@@ -109,8 +138,62 @@ recur_update))>
 <!ELEMENT recur_amount (#PCDATA)>
 
 <!-- start COF -->
-<!ELEMENT cof_info (payment_indicator?, payment_information?, issuer_id?)>
+<!ELEMENT cof_info (payment_indicator, payment_information, issuer_id)>
 <!ELEMENT payment_indicator (#PCDATA)>
 <!ELEMENT payment_information (#PCDATA)>
 <!ELEMENT issuer_id (#PCDATA)>
 
+<!-- start MCP specific fields-->
+<!ELEMENT rate_info (rate+)>
+<!ELEMENT rate ((cardholder_amount | merchant_settlement_amount), cardholder_currency_code)>
+
+<!ELEMENT mcp_version (#PCDATA)>
+<!ELEMENT rate_txn_type (#PCDATA)>
+<!ELEMENT cardholder_amount (#PCDATA)>
+<!ELEMENT merchant_settlement_amount (#PCDATA)>
+<!ELEMENT cardholder_currency_code (#PCDATA)>
+<!ELEMENT mcp_rate_token (#PCDATA)>
+<!ELEMENT cm_id (#PCDATA)>
+
+<!-- start Wallet specific fields -->
+<!ELEMENT token_originator (store_id, api_token)>
+<!ELEMENT payment_token (signature, protocol_version, signed_message)>
+
+<!ELEMENT displayName (#PCDATA)>
+<!ELEMENT network (#PCDATA)>
+<!ELEMENT version (#PCDATA)>
+<!ELEMENT data (#PCDATA)>
+<!ELEMENT signature (#PCDATA)>
+<!ELEMENT header (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT protocol_version (#PCDATA)>
+<!ELEMENT signed_message (#PCDATA)>
+
+<!-- start 3DS 2.0 specific fields -->
+<!ELEMENT threeds_version (#PCDATA)>
+<!ELEMENT threeds_server_trans_id (#PCDATA)>
+<!ELEMENT data_key (#PCDATA)>
+<!ELEMENT notification_url (#PCDATA)>
+<!ELEMENT cardholder_name (#PCDATA)>
+<!ELEMENT currency (#PCDATA)>
+<!ELEMENT threeds_completion_ind (#PCDATA)>
+<!ELEMENT request_type (#PCDATA)>
+<!ELEMENT purchase_date (#PCDATA)>
+<!ELEMENT challenge_windowsize (#PCDATA)>
+<!ELEMENT bill_address1 (#PCDATA)>
+<!ELEMENT bill_province (#PCDATA)>
+<!ELEMENT bill_city (#PCDATA)>
+<!ELEMENT bill_postal_code (#PCDATA)>
+<!ELEMENT bill_country (#PCDATA)>
+<!ELEMENT ship_address1 (#PCDATA)>
+<!ELEMENT ship_province (#PCDATA)>
+<!ELEMENT ship_city (#PCDATA)>
+<!ELEMENT ship_postal_code (#PCDATA)>
+<!ELEMENT ship_country (#PCDATA)>
+<!ELEMENT browser_useragent (#PCDATA)>
+<!ELEMENT browser_java_enabled (#PCDATA)>
+<!ELEMENT browser_screen_height (#PCDATA)>
+<!ELEMENT browser_screen_width (#PCDATA)>
+<!ELEMENT browser_language (#PCDATA)>
+<!ELEMENT request_challenge (#PCDATA)>
+<!ELEMENT cres (#PCDATA)>

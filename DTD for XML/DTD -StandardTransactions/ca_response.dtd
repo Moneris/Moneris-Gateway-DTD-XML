@@ -3,9 +3,14 @@
 <!-- Main Elements -->
 
 <!ELEMENT response (receipt+)>
-<!ELEMENT receipt (ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete,
+<!ELEMENT Mpi2Response (receipt)>
+
+<!ELEMENT receipt ((ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete,
 Message, TransAmount, CardType, TransID, TimedOut, BankTotals, Ticket, RecurSuccess?, CvdResultCode?, AvsResultCode?,
-CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit, IssuerId)>
+CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit,
+MCPRateToken?, RateTxnType?, (Rate+)?, RateInqStartTime?, RateInqEndTime?, RateValidityStartTime?, RateValidityEndTime?, RateValidityPeriod?,
+CardholderCurrencyCode?, CardholderAmount?, MerchantSettlementCurrency?, MerchantSettlementAmount?, MCPRate?, MCPErrorStatusCode?, MCPErrorMessage?) |
+(MessageType?, ResponseCode, Message, ReceiptId, ThreeDSMethodURL?, ThreeDSMethodData?, ChallengeURL?, ChallengeData?, ChallengeCompletionIndicator?, TransStatus?, ThreeDSServerTransId, ECI?, Cavv?))>
 
 <!ELEMENT ReceiptId (#PCDATA)>
 <!ELEMENT ReferenceNum (#PCDATA)>
@@ -57,3 +62,33 @@ CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?,
 
 <!ELEMENT Count (#PCDATA)>
 <!ELEMENT Amount (#PCDATA)>
+
+<!-- The following are only applicable to Multi-currency transactions (MCP) -->
+<!ELEMENT Rate (CardholderCurrencyCode, CardholderAmount, MerchantSettlementCurrency, MerchantSettlementAmount, MCPRate, MCPErrorStatusCode, MCPErrorMessage)>
+
+<!ELEMENT MCPRateToken (#PCDATA)> 
+<!ELEMENT RateTxnType (#PCDATA)> 
+<!ELEMENT RateInqStartTime (#PCDATA)> 
+<!ELEMENT RateInqEndTime (#PCDATA)>  
+<!ELEMENT RateValidityStartTime (#PCDATA)>  
+<!ELEMENT RateValidityEndTime (#PCDATA)>  
+<!ELEMENT RateValidityPeriod (#PCDATA)>
+<!ELEMENT CardholderCurrencyCode (#PCDATA)>  
+<!ELEMENT CardholderAmount (#PCDATA)>  
+<!ELEMENT MerchantSettlementCurrency (#PCDATA)>  
+<!ELEMENT MerchantSettlementAmount (#PCDATA)>  
+<!ELEMENT MCPRate (#PCDATA)>  
+<!ELEMENT MCPErrorStatusCode (#PCDATA)>  
+<!ELEMENT MCPErrorMessage (#PCDATA)>
+
+<!-- The following are only applicable to 3DS 2.0 transactions -->
+<!ELEMENT MessageType (#PCDATA)>
+<!ELEMENT ThreeDSMethodURL (#PCDATA)>
+<!ELEMENT ThreeDSMethodData (#PCDATA)>
+<!ELEMENT ChallengeURL (#PCDATA)>
+<!ELEMENT ChallengeData (#PCDATA)>
+<!ELEMENT ChallengeCompletionIndicator (#PCDATA)>
+<!ELEMENT TransStatus (#PCDATA)>
+<!ELEMENT ThreeDSServerTransId (#PCDATA)>
+<!ELEMENT ECI (#PCDATA)>
+<!ELEMENT Cavv (#PCDATA)>
