@@ -4,7 +4,8 @@
 
 <!ELEMENT request (store_id, api_token, status_check?, (purchase | refund | ind_refund | preauth | completion | purchasecorrection | 
   forcepost | reauth | card_verification | idebit_purchase | idebit_refund | cavv_preauth | cavv_purchase | 
-  mcp_completion | mcp_ind_refund | mcp_preauth | mcp_purchase | mcp_purchasecorrection | mcp_refund | mcp_res_ind_refund_cc | mcp_res_preauth_cc | mcp_res_purchase_cc | mcp_get_rate |
+  mcp_completion | mcp_ind_refund | mcp_preauth | mcp_purchase | mcp_purchasecorrection | mcp_refund | mcp_res_ind_refund_cc | mcp_res_preauth_cc | mcp_res_purchase_cc | mcp_get_rate | mcp_cavv_preauth | mcp_cavv_purchase | mcp_cavv_res_preauth_cc | mcp_cavv_res_purchase_cc |
+  res_cavv_preauth_cc | res_cavv_purchase_cc | res_add_cc | res_update_cc | res_delete |
   batchclose | opentotals | recur_update | applepay_token_purchase | applepay_token_preauth | googlepay_purchase | googlepay_preauth))>
 
 <!ELEMENT store_id (#PCDATA)>
@@ -28,8 +29,10 @@
 
 <!--The following are for Verified by Visa and/or MasterCard SecureCode transactions -->
 <!--NOTE: To assist in any chargeback investigations, it is recommended to store the 'XID' (order_id) returned from the MPI for future reference. -->
-<!ELEMENT cavv_preauth (order_id , cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version?, threeds_server_trans_id?, cust_info?, avs_info?, cvd_info?, cof_info?)>
-<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version?, threeds_server_trans_id?, cust_info?, avs_info?, cvd_info?, recur?, cof_info?)>
+<!--NOTE: In Frictionless flow, you may receive TransStatus as "Y", in which case you can then proceed directly to Cavv Purchase/Preauth with values below -->
+<!--NOTE: threeds_version and threeds_server_trans_id are mandatory for 3DS Version 2.0+ -->
+<!ELEMENT cavv_preauth (order_id , cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version, threeds_server_trans_id, cust_info?, avs_info?, cvd_info?, cof_info?, ds_trans_id?)>
+<!ELEMENT cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version, threeds_server_trans_id, cust_info?, avs_info?, cvd_info?, recur?, cof_info?, ds_trans_id?)>
 
 <!--The following are the Multi-currency transactions (MCP) -->
 <!ELEMENT mcp_completion (order_id, txn_number, crypt_type, cust_id, dynamic_descriptor?, ship_indicator?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?) >
@@ -42,6 +45,19 @@
 <!ELEMENT mcp_res_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
 <!ELEMENT mcp_res_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
 <!ELEMENT mcp_get_rate (mcp_version, rate_txn_type, rate_info)>
+<!--NOTE: threeds_version and threeds_server_trans_id are mandatory for 3DS Version 2.0+ -->
+<!ELEMENT mcp_cavv_preauth (order_id , cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version, threeds_server_trans_id, cust_info?, avs_info?, cvd_info?, cof_info?, ds_trans_id?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_cavv_purchase (order_id, cust_id?, amount, pan, expdate, cavv, crypt_type?, dynamic_descriptor?, wallet_indicator?, threeds_version, threeds_server_trans_id, cust_info?, avs_info?, cvd_info?, recur?, cof_info?, ds_trans_id?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?)>
+<!ELEMENT mcp_cavv_res_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
+<!ELEMENT mcp_cavv_res_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, mcp_version, cardholder_amount, cardholder_currency_code, mcp_rate_token?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
+
+<!--The following are the Vault transactions -->
+<!--NOTE: threeds_version and threeds_server_trans_id are mandatory for 3DS Version 2.0+ -->
+<!ELEMENT res_cavv_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
+<!ELEMENT res_cavv_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
+<!ELEMENT res_add_cc (pan, expdate, crypt_type, cust_id, phone, email, note, data_key_format?)>
+<!ELEMENT res_update_cc (data_key, cust_id, phone, email, note, pan, expdate, crypt_type)>
+<!ELEMENT res_delete (data_key)>
 
 <!--The following are general administrative transactions -->
 <!ELEMENT batchclose (ecr_number)>
@@ -197,3 +213,11 @@
 <!ELEMENT browser_language (#PCDATA)>
 <!ELEMENT request_challenge (#PCDATA)>
 <!ELEMENT cres (#PCDATA)>
+<!ELEMENT ds_trans_id (#PCDATA)>
+
+<!-- start Vault specific fields -->
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT note (#PCDATA)>
+<!ELEMENT data_key_format (#PCDATA)>
+
+
