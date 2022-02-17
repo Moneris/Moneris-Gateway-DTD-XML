@@ -7,7 +7,7 @@
 
 <!ELEMENT receipt ((ReceiptId, ReferenceNum, ResponseCode, ISO, AuthCode, TransTime, TransDate, TransType, Complete,
 Message, TransAmount, CardType, TransID, TimedOut, BankTotals, Ticket, RecurSuccess?, CvdResultCode?, AvsResultCode?,
-CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit,
+CavvResultCode?, ITDResponse?, StatusCode?, StatusMessage?, RecurUpdateSuccess?, NextRecurDate?, RecurEndDate?, IsVisaDebit, IssuerId?,
 MCPRateToken?, RateTxnType?, (Rate+)?, RateInqStartTime?, RateInqEndTime?, RateValidityStartTime?, RateValidityEndTime?, RateValidityPeriod?,
 CardholderCurrencyCode?, CardholderAmount?, MerchantSettlementCurrency?, MerchantSettlementAmount?, MCPRate?, MCPErrorStatusCode?, MCPErrorMessage?) |
 (MessageType?, ResponseCode, Message, ReceiptId, ThreeDSMethodURL?, ThreeDSMethodData?, ChallengeURL?, ChallengeData?, ChallengeCompletionIndicator?, TransStatus?, ThreeDSServerTransId, ECI?, Cavv?))>
