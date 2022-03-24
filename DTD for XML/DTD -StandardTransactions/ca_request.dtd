@@ -5,7 +5,7 @@
 <!ELEMENT request (store_id, api_token, status_check?, (purchase | refund | ind_refund | preauth | completion | purchasecorrection | 
   forcepost | reauth | card_verification | idebit_purchase | idebit_refund | cavv_preauth | cavv_purchase | 
   mcp_completion | mcp_ind_refund | mcp_preauth | mcp_purchase | mcp_purchasecorrection | mcp_refund | mcp_res_ind_refund_cc | mcp_res_preauth_cc | mcp_res_purchase_cc | mcp_get_rate | mcp_cavv_preauth | mcp_cavv_purchase | mcp_cavv_res_preauth_cc | mcp_cavv_res_purchase_cc |
-  res_cavv_preauth_cc | res_cavv_purchase_cc | res_add_cc | res_update_cc | res_delete |
+  res_cavv_preauth_cc | res_cavv_purchase_cc | res_add_cc | res_update_cc | res_delete | res_lookup_full | res_lookup_masked | res_get_expiring | res_purchase_cc | res_preauth_cc | res_ind_refund_cc | res_iscorporatecard | res_temp_add | res_mpitxn |
   batchclose | opentotals | recur_update | applepay_token_purchase | applepay_token_preauth | googlepay_purchase | googlepay_preauth))>
 
 <!ELEMENT store_id (#PCDATA)>
@@ -14,11 +14,11 @@
 
 <!--The following are the basic credit card transactions -->
 <!ELEMENT purchase (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?, recur?,cof_info? )>
-<!ELEMENT refund (order_id, amount, txn_number, crypt_type)>
+<!ELEMENT refund (order_id, cust_id?, amount, txn_number, crypt_type)>
 <!ELEMENT ind_refund (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?)>
 <!ELEMENT preauth (order_id, cust_id?, amount, pan, expdate, crypt_type, dynamic_descriptor?, cust_info?, avs_info?, cvd_info?,cof_info?)>
-<!ELEMENT completion (order_id, comp_amount, txn_number, crypt_type, ship_indicator?)>
-<!ELEMENT purchasecorrection (order_id, txn_number, crypt_type, ship_indicator?)>
+<!ELEMENT completion (order_id, cust_id?, comp_amount, txn_number, crypt_type, ship_indicator?)>
+<!ELEMENT purchasecorrection (order_id, cust_id?, txn_number, crypt_type, ship_indicator?)>
 <!ELEMENT forcepost (order_id, cust_id?, amount, pan, expdate, crypt_type, auth_code, dynamic_descriptor?)>
 <!ELEMENT card_verification (order_id, cust_id?, pan, expdate, crypt_type, avs_info?, cvd_info?,cof_info?)>
 <!ELEMENT reauth (order_id, cust_id?, orig_order_id, txn_number, amount, crypt_type)>
@@ -53,11 +53,27 @@
 
 <!--The following are the Vault transactions -->
 <!--NOTE: threeds_version and threeds_server_trans_id are mandatory for 3DS Version 2.0+ -->
-<!ELEMENT res_cavv_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
-<!ELEMENT res_cavv_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?)>
-<!ELEMENT res_add_cc (pan, expdate, crypt_type, cust_id, phone, email, note, data_key_format?)>
-<!ELEMENT res_update_cc (data_key, cust_id, phone, email, note, pan, expdate, crypt_type)>
+<!ELEMENT res_cavv_preauth_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?, get_nt_response?)>
+<!ELEMENT res_cavv_purchase_cc (data_key, order_id, cust_id, crypt_type, dynamic_descriptor?, expdate?, threeds_version, threeds_server_trans_id,  ds_trans_id?, get_nt_response?)>
+<!ELEMENT res_add_cc (pan, expdate, crypt_type, cust_id, phone, email, note, avs_info?,cof_info?, data_key_format?)>
+<!ELEMENT res_update_cc (data_key, cust_id?, phone?, email?, note?, pan?, expdate?, crypt_type?, avs_info?, cof_info?)> 
 <!ELEMENT res_delete (data_key)>
+<!ELEMENT res_lookup_full (data_key)>
+<!ELEMENT res_lookup_masked (data_key)>
+<!ELEMENT res_get_expiring EMPTY> <!-- nothing else is required, returns all CC cards that expire within the current or next month -->
+<!ELEMENT res_purchase_cc (data_key, order_id, cust_id?, amount, crypt_type, cust_info?, avs_info?, cvd_info?, recur?, cof_info?, get_nt_response?)>
+	<!-- if a cust_id is sent, it will be submitted with the purchase but not stored in profile -->
+	<!-- if a cust_id is not sent, then will pull cust_id from profile and submit with purchase -->
+	<!-- if no cust_id is sent or in profile then none will be sent with purchase -->
+	<!-- above cust_id behaviour also applies to avs_info -->
+<!ELEMENT res_preauth_cc (data_key, order_id, cust_id?, amount, crypt_type, cust_info?, avs_info?, cvd_info?, cof_info?, get_nt_response?)>
+<!ELEMENT res_ind_refund_cc (data_key, order_id, cust_id?, amount, crypt_type, cof_info?)>
+<!ELEMENT res_iscorporatecard (data_key)>
+<!ELEMENT res_card_verification_cc (data_key, order_id, crypt_type, avs_info?, cvd_info?, cof_info?, get_nt_response?)>
+<!ELEMENT res_forcepost_cc (data_key, order_id, cust_id?, amount, crypt_type, auth_code)>
+<!ELEMENT res_temp_add (pan, expdate, crypt_type, duration, data_key_format?)>
+<!ELEMENT res_add_token (data_key, crypt_type, expdate, cof_info, cust_id?, avs_info?, email?, phone?, note?, data_key_format?)>
+<!ELEMENT res_mpitxn (data_key, xid, amount, MD, merchantUrl, accept, userAgent, expdate?)>
 
 <!--The following are general administrative transactions -->
 <!ELEMENT batchclose (ecr_number)>
@@ -185,6 +201,13 @@
 <!ELEMENT protocol_version (#PCDATA)>
 <!ELEMENT signed_message (#PCDATA)>
 
+<!-- start 3DS 1.0 specific fields -->
+<!ELEMENT xid (#PCDATA)>
+<!ELEMENT MD (#PCDATA)>		
+<!ELEMENT merchantUrl (#PCDATA)>
+<!ELEMENT accept (#PCDATA)>
+<!ELEMENT userAgent (#PCDATA)>
+
 <!-- start 3DS 2.0 specific fields -->
 <!ELEMENT threeds_version (#PCDATA)>
 <!ELEMENT threeds_server_trans_id (#PCDATA)>
@@ -219,5 +242,5 @@
 <!ELEMENT phone (#PCDATA)>
 <!ELEMENT note (#PCDATA)>
 <!ELEMENT data_key_format (#PCDATA)>
-
-
+<!ELEMENT duration (#PCDATA)>
+<!ELEMENT get_nt_response (#PCDATA)>
