@@ -1,1 +1,4 @@
+*.graphql linguist-detectable
+quickstart/*.xml linguist-detectable
+
 *.* linguist-language=XML
